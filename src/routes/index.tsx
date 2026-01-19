@@ -169,7 +169,7 @@ function Index() {
                         setSelectedRoom(room)
                         setBookingModalOpen(true)
                         }}
-                        className="w-full rounded-xl h-12 font-semibold text-sm border-2 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all gap-2 group/btn"
+                        className="w-full rounded-xl h-12 font-semibold text-sm border-2 border-white/10 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all gap-2 group/btn"
                     >
                         Check Availability
                         <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />

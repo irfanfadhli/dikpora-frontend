@@ -182,11 +182,11 @@ function AdminUsers() {
                   )}
                   <div className="grid grid-cols-2 gap-4 pt-2">
                     <div className="flex items-center gap-3">
-                      <input type="checkbox" name="active" defaultChecked={editingUser?.active ?? true} className="w-5 h-5 rounded-lg text-neutral-900 focus:ring-neutral-900" />
+                      <input type="checkbox" name="active" defaultChecked={editingUser?.active ?? true} className="w-5 h-5 rounded-lg text-primary focus:ring-primary" />
                       <label className="text-xs font-bold uppercase tracking-widest">Active</label>
                     </div>
                     <div className="flex items-center gap-3">
-                      <input type="checkbox" name="is_verified" defaultChecked={editingUser?.is_verified ?? false} className="w-5 h-5 rounded-lg text-neutral-900 focus:ring-neutral-900" />
+                      <input type="checkbox" name="is_verified" defaultChecked={editingUser?.is_verified ?? false} className="w-5 h-5 rounded-lg text-primary focus:ring-primary" />
                       <label className="text-xs font-bold uppercase tracking-widest">Verified</label>
                     </div>
                   </div>

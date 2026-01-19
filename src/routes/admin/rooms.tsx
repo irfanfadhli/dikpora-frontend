@@ -148,7 +148,7 @@ function AdminRooms() {
                       <Input name="capacity" type="number" defaultValue={editingRoom?.capacity} className="rounded-xl h-12 bg-muted border-none px-4" />
                     </div>
                     <div className="flex items-center gap-3 pt-6">
-                      <input type="checkbox" name="active" defaultChecked={editingRoom?.active ?? true} className="w-5 h-5 rounded-lg text-neutral-900 focus:ring-neutral-900" />
+                      <input type="checkbox" name="active" defaultChecked={editingRoom?.active ?? true} className="w-5 h-5 rounded-lg text-primary focus:ring-primary" />
                       <label className="text-xs font-bold uppercase tracking-widest">Active</label>
                     </div>
                   </div>

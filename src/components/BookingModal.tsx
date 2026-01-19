@@ -230,41 +230,41 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
             <DialogTitle className="text-2xl font-black uppercase tracking-tight">
               Book {room.name}
             </DialogTitle>
-            <p className="text-[10px] font-black uppercase tracking-widest text-neutral-400 mt-2">
+            <p className="text-[10px] font-black uppercase tracking-widest text-foreground mt-2">
               {room.location || 'Central Facility'} • {room.capacity} Persons
             </p>
           </DialogHeader>
 
           {/* Progress Steps */}
           <div className="flex items-center gap-4 mt-6">
-            <div className={`flex items-center gap-2 ${step === 'date' ? 'text-blue-600' : ['time', 'form', 'success'].includes(step) ? 'text-neutral-400' : ''}`}>
+            <div className={`flex items-center gap-2 ${step === 'date' ? 'text-primary' : ['time', 'form', 'success'].includes(step) ? 'text-muted-foreground' : 'text-muted-foreground/50'}`}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black ${
                 step === 'date' ? 'bg-primary text-primary-foreground' : 
                 ['time', 'form', 'success'].includes(step) ? 'bg-emerald-500 text-white' : 'bg-muted'
               }`}>
                 {['time', 'form', 'success'].includes(step) ? '✓' : '1'}
               </div>
-              <span className="text-[10px] font-black uppercase tracking-widest">Date</span>
+              <span className="text-[10px] font-black uppercase tracking-widest text-foreground">Date</span>
             </div>
             <div className="flex-1 h-px bg-border" />
-            <div className={`flex items-center gap-2 ${step === 'time' ? 'text-blue-600' : ['form', 'success'].includes(step) ? 'text-neutral-400' : ''}`}>
+            <div className={`flex items-center gap-2 ${step === 'time' ? 'text-primary' : ['form', 'success'].includes(step) ? 'text-muted-foreground' : 'text-muted-foreground/50'}`}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black ${
                 step === 'time' ? 'bg-primary text-primary-foreground' : 
                 ['form', 'success'].includes(step) ? 'bg-emerald-500 text-white' : 'bg-muted'
               }`}>
                 {['form', 'success'].includes(step) ? '✓' : '2'}
               </div>
-              <span className="text-[10px] font-black uppercase tracking-widest">Time</span>
+              <span className="text-[10px] font-black uppercase tracking-widest text-foreground">Time</span>
             </div>
             <div className="flex-1 h-px bg-border" />
-            <div className={`flex items-center gap-2 ${step === 'form' ? 'text-blue-600' : step === 'success' ? 'text-neutral-400' : ''}`}>
+            <div className={`flex items-center gap-2 ${step === 'form' ? 'text-primary' : step === 'success' ? 'text-muted-foreground' : 'text-muted-foreground/50'}`}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black ${
                 step === 'form' ? 'bg-blue-600 text-white' : 
                 step === 'success' ? 'bg-emerald-500 text-white' : 'bg-muted'
               }`}>
                 {step === 'success' ? '✓' : '3'}
               </div>
-              <span className="text-[10px] font-black uppercase tracking-widest">Details</span>
+              <span className="text-[10px] font-black uppercase tracking-widest text-foreground">Details</span>
             </div>
           </div>
         </div>
@@ -273,8 +273,8 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
           {/* Step 1: Date Selection */}
           {step === 'date' && (
             <div>
-              <h3 className="text-lg font-black uppercase tracking-tight mb-2">Select Your Date</h3>
-              <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-6">
+              <h3 className="text-lg font-black uppercase tracking-tight mb-2 text-foreground">Select Your Date</h3>
+              <p className="text-[10px] font-bold text-foreground uppercase tracking-widest mb-6">
                 Choose your preferred booking date
               </p>
               
@@ -290,8 +290,8 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
                     }`}
                   >
                     <div className="text-center">
-                      <div className="text-2xl font-black">{format(date, 'd')}</div>
-                      <div className="text-[10px] font-black uppercase tracking-widest text-neutral-400 mt-1">
+                      <div className="text-2xl font-black text-foreground">{format(date, 'd')}</div>
+                      <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mt-1">
                         {format(date, 'EEE')}
                       </div>
                       {index === 0 && (
@@ -311,8 +311,8 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
             <div>
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h3 className="text-lg font-black uppercase tracking-tight mb-1">Choose Your Time</h3>
-                  <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">
+                  <h3 className="text-lg font-black uppercase tracking-tight mb-1 text-foreground">Choose Your Time</h3>
+                  <p className="text-[10px] font-bold text-foreground uppercase tracking-widest">
                     {format(selectedDate, 'EEEE, MMMM d, yyyy')}
                   </p>
                 </div>
@@ -341,11 +341,11 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
                       }`}
                     >
                       <div className="flex items-center justify-center gap-2">
-                        <Clock className={`w-4 h-4 ${status === 'selected' ? 'text-white' : ''}`} />
-                        <span className={`text-sm font-black ${status === 'selected' ? 'text-white' : ''}`}>{time}</span>
+                        <Clock className={`w-4 h-4 text-foreground ${status === 'selected' ? 'text-white' : ''}`} />
+                        <span className={`text-sm font-black text-foreground ${status === 'selected' ? 'text-white' : ''}`}>{time}</span>
                       </div>
                       {status === 'past' && (
-                        <Badge className="absolute -top-2 -right-2 bg-neutral-400 text-white text-[8px] px-2 py-0.5">
+                        <Badge className="absolute -top-2 -right-2 bg-muted-foreground text-background text-[8px] px-2 py-0.5">
                           Past
                         </Badge>
                       )}
@@ -373,15 +373,15 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
               <div className="flex items-center gap-6 mt-8 pt-6 border-t border-border">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-emerald-500" />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Available</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-foreground">Available</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-blue-600" />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Selected</span>
+                  <div className="w-3 h-3 rounded-full bg-primary" />
+                  <span className="text-[10px] font-black uppercase tracking-widest text-foreground">Selected</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-red-500" />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Booked</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-foreground">Booked</span>
                 </div>
               </div>
             </div>
@@ -391,8 +391,8 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
           {step === 'form' && (
             <div>
               <div className="mb-6">
-                <h3 className="text-lg font-black uppercase tracking-tight mb-1">Your Details</h3>
-                <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">
+                <h3 className="text-lg font-black uppercase tracking-tight mb-1 text-foreground">Your Details</h3>
+                <p className="text-[10px] font-bold text-foreground uppercase tracking-widest">
                   {format(selectedDate!, 'EEE, MMM d')} • {startTime} - {(parseInt(endTime || startTime || "0") + 1).toString().padStart(2, '0')}:00
                 </p>
               </div>
@@ -400,23 +400,23 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid gap-4">
                   <div>
-                    <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-2 block">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-foreground mb-2 block">
                       Full Name *
                     </label>
                     <div className="relative">
-                      <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
+                      <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                       <Input
                         required
                         value={guestName}
                         onChange={(e) => setGuestName(e.target.value)}
-                        className="pl-12 h-14 rounded-2xl border-2 font-bold"
+                        className="pl-12 h-14 rounded-2xl border-2 font-bold text-foreground"
                         placeholder="Enter your full name"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-2 block">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-foreground mb-2 block">
                       Email Address *
                     </label>
                     <div className="relative">
@@ -426,14 +426,14 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
                         required
                         value={guestEmail}
                         onChange={(e) => setGuestEmail(e.target.value)}
-                        className="pl-12 h-14 rounded-2xl border-2 font-bold"
+                        className="pl-12 h-14 rounded-2xl border-2 font-bold text-foreground"
                         placeholder="your.email@example.com"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400 mb-2 block">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-foreground mb-2 block">
                       Phone Number
                     </label>
                     <div className="relative">
@@ -442,7 +442,7 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
                         type="tel"
                         value={guestPhone}
                         onChange={(e) => setGuestPhone(e.target.value)}
-                        className="pl-12 h-14 rounded-2xl border-2 font-bold"
+                        className="pl-12 h-14 rounded-2xl border-2 font-bold text-foreground"
                         placeholder="+62 812 3456 7890"
                       />
                     </div>
@@ -454,7 +454,7 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
                     type="button"
                     variant="outline"
                     onClick={() => setStep('time')}
-                    className="flex-1 h-14 rounded-2xl font-black uppercase tracking-widest text-xs"
+                    className="flex-1 h-14 rounded-2xl font-black uppercase tracking-widest text-xs border-white/20 hover:bg-white/10 text-white"
                   >
                     Back
                   </Button>
@@ -477,8 +477,8 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
               <div className="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
                 <CheckCircle2 className="w-10 h-10 text-emerald-600" />
               </div>
-              <h3 className="text-2xl font-black uppercase tracking-tight mb-2">Booking Confirmed!</h3>
-              <p className="text-sm text-neutral-400 mb-8">
+              <h3 className="text-2xl font-black uppercase tracking-tight mb-2 text-foreground">Booking Confirmed!</h3>
+              <p className="text-sm text-foreground/70 mb-8">
                 Your reservation has been successfully created
               </p>
               
