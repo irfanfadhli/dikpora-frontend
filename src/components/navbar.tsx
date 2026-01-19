@@ -46,7 +46,7 @@ export function Navbar() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50 supports-[backdrop-filter]:bg-background/60">
+    <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50 supports-[backdrop-filter]:bg-background/60 text-foreground">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <Link to="/" className="flex items-center gap-2 group">
@@ -96,43 +96,39 @@ export function Navbar() {
             )}
           </div>
 
-          <div className="hidden md:flex items-center gap-4">
-            {isAuthenticated ? (
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 md:gap-4">
+              <ModeToggle />
+              <div className="hidden md:flex items-center gap-4">
+                {isAuthenticated ? (
+                  <Button 
+                    variant="ghost" 
+                    onClick={handleLogout}
+                    className="rounded-full gap-2 px-6 hover:bg-muted text-muted-foreground hover:text-foreground"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Logout
+                  </Button>
+                ) : (
+                  <Link to="/login">
+                    <Button variant="default" className="rounded-full px-6 shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 transition-all">
+                      Sign In
+                    </Button>
+                  </Link>
+                )}
+              </div>
+            </div>
+
+            <div className="md:hidden">
               <Button 
                 variant="ghost" 
-                onClick={handleLogout}
-                className="rounded-full gap-2 px-6 hover:bg-muted text-muted-foreground hover:text-foreground"
+                size="icon" 
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="hover:bg-accent/50"
               >
-                <LogOut className="w-4 h-4" />
-                Logout
+                {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </Button>
-            ) : (
-              <>
-                <Link to="/login">
-                  <Button variant="default" className="rounded-full px-6 shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 transition-all">
-                    Sign In
-                  </Button>
-                </Link>
-              </>
-            )}
-                <button
-                onClick={() => {
-                  toggleTheme();
-                }}
-                className="p-2 hover:bg-accent rounded transition"
-                title={isDark ? "Switch to light mode" : "Switch to dark mode"}
-              >
-                {isDark ? (
-                  <Sun className="w-5 h-5" />
-                ) : (
-                  <Moon className="w-5 h-5" />
-                )}
-              </button>
-          </div>
-          <div className="md:hidden">
-            <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -149,7 +145,11 @@ export function Navbar() {
                 const isAdmin = user?.role === 'admin' || user?.role === 'superadmin'
                 
                 return isAdmin ? (
-                  <Link to="/admin/rooms" onClick={() => setIsMenuOpen(false)} className="block text-lg font-medium text-foreground">Dashboard</Link>
+                  <>
+                    <Link to="/admin/rooms" onClick={() => setIsMenuOpen(false)} className="block text-lg font-medium text-foreground py-2 border-b border-border/50">Manage Rooms</Link>
+                    <Link to="/admin/bookings" onClick={() => setIsMenuOpen(false)} className="block text-lg font-medium text-foreground py-2 border-b border-border/50">Manage Bookings</Link>
+                    <Link to="/admin/users" onClick={() => setIsMenuOpen(false)} className="block text-lg font-medium text-foreground py-2 border-b border-border/50">Manage Users</Link>
+                  </>
                 ) : (
                   <Link to="/dashboard" onClick={() => setIsMenuOpen(false)} className="block text-lg font-medium text-foreground">My Bookings</Link>
                 )

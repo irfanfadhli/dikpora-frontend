@@ -65,7 +65,7 @@ function UserDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-muted/10">
+    <div className="min-h-screen bg-muted/10 animate-appear">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="flex items-center gap-3 mb-8">

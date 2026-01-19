@@ -142,7 +142,7 @@ function AdminUsers() {
   return (
     <div className="flex">
       <AdminSidebar />
-      <div className="flex-1 p-6 md:p-10 bg-background">
+      <div className="flex-1 p-6 md:p-10 bg-background animate-appear">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
           <div>
             <h1 className="text-3xl font-black tracking-tight uppercase mb-1">User Management</h1>
@@ -262,7 +262,7 @@ function AdminUsers() {
                     </div>
                   </TableCell>
                   <TableCell className="px-6 py-5 text-right">
-                    <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="flex justify-end gap-1 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
                       <Button 
                         variant="ghost" 
                         size="icon" 

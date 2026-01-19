@@ -80,7 +80,7 @@ function AdminBookings() {
   return (
     <div className="flex">
       <AdminSidebar />
-      <div className="flex-1 p-6 md:p-10 bg-background">
+      <div className="flex-1 p-6 md:p-10 bg-background animate-appear">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
           <div>
             <h1 className="text-3xl font-black tracking-tight uppercase mb-1">Reservation Ledger</h1>
@@ -156,7 +156,7 @@ function AdminBookings() {
                         <option value="confirmed">Confirm</option>
                         <option value="cancelled">Cancel</option>
                       </select>
-                      <Button variant="ghost" size="icon" onClick={() => { if(confirm('Purge record?')) deleteMutation.mutate(booking.id) }} className="rounded-xl hover:bg-destructive/10 hover:text-destructive transition-all opacity-0 group-hover:opacity-100">
+                      <Button variant="ghost" size="icon" onClick={() => { if(confirm('Purge record?')) deleteMutation.mutate(booking.id) }} className="rounded-xl hover:bg-destructive/10 hover:text-destructive transition-all lg:opacity-0 lg:group-hover:opacity-100">
                         <XCircle className="w-3.5 h-3.5 text-neutral-300" />
                       </Button>
                     </div>

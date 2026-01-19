@@ -31,7 +31,7 @@ function Index() {
   ) || []
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen animate-appear">
       {/* Hero Section */}
       <section className="relative pt-24 pb-20 px-4 md:px-8 w-full border-b bg-muted/20">
         <div className="max-w-7xl mx-auto flex flex-col items-center text-center">

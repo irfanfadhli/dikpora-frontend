@@ -359,11 +359,18 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
                 })}
               </div>
 
-              <div className="mt-8 flex justify-end">
+              <div className="mt-8 flex gap-3 justify-end">
+                  <Button
+                    variant="outline"
+                    onClick={() => setStep('date')}
+                    className="flex-1 max-w-[120px] h-12 rounded-2xl font-black uppercase tracking-widest text-xs border-border text-foreground hover:bg-muted"
+                  >
+                    Back
+                  </Button>
                   <Button 
                     onClick={handleContinueToForm} 
                     disabled={!startTime}
-                    className="rounded-2xl h-12 px-8 font-black uppercase tracking-widest text-xs"
+                    className="flex-1 max-w-[200px] h-12 rounded-2xl px-8 font-black uppercase tracking-widest text-xs"
                   >
                     Continue
                     <CheckCircle2 className="w-4 h-4 ml-2" />
