@@ -146,7 +146,7 @@ function AdminUsers() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
           <div>
             <h1 className="text-3xl font-black tracking-tight uppercase mb-1">User Management</h1>
-            <p className="text-sm font-bold text-neutral-400 uppercase tracking-widest">Identity Control & Access Rights</p>
+            <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Identity Control & Access Rights</p>
           </div>
           <Dialog open={isModalOpen} onOpenChange={(open) => { setIsModalOpen(open); if(!open) setEditingUser(null); }}>
             <DialogTrigger asChild>
@@ -160,34 +160,34 @@ function AdminUsers() {
                 <DialogTitle className="text-2xl font-black uppercase tracking-tight">
                   {editingUser ? 'Edit User' : 'Create New User'}
                 </DialogTitle>
-                <DialogDescription className="font-bold text-neutral-400 uppercase tracking-widest text-[10px]">
+                <DialogDescription className="font-bold text-muted-foreground uppercase tracking-widest text-[10px]">
                   {editingUser ? 'Update user information and permissions.' : 'Add a new user to the system.'}
                 </DialogDescription>
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-6 mt-4">
                 <div className="space-y-4">
                   <div className="grid gap-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Full Name *</label>
-                    <Input name="full_name" defaultValue={editingUser?.full_name} required className="rounded-xl h-12 bg-muted border-none px-4" />
+                    <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Full Name *</label>
+                    <Input name="full_name" defaultValue={editingUser?.full_name} required className="rounded-xl h-12 bg-muted border-none px-4 text-foreground" />
                   </div>
                   <div className="grid gap-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Email Address *</label>
-                    <Input name="email" type="email" defaultValue={editingUser?.email} required className="rounded-xl h-12 bg-muted border-none px-4" />
+                    <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Email Address *</label>
+                    <Input name="email" type="email" defaultValue={editingUser?.email} required className="rounded-xl h-12 bg-muted border-none px-4 text-foreground" />
                   </div>
                   {!editingUser && (
                     <div className="grid gap-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Password *</label>
-                      <Input name="password" type="password" required minLength={8} className="rounded-xl h-12 bg-muted border-none px-4" placeholder="Minimum 8 characters" />
+                      <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Password *</label>
+                      <Input name="password" type="password" required minLength={8} className="rounded-xl h-12 bg-muted border-none px-4 text-foreground" placeholder="Minimum 8 characters" />
                     </div>
                   )}
                   <div className="grid grid-cols-2 gap-4 pt-2">
                     <div className="flex items-center gap-3">
                       <input type="checkbox" name="active" defaultChecked={editingUser?.active ?? true} className="w-5 h-5 rounded-lg text-primary focus:ring-primary" />
-                      <label className="text-xs font-bold uppercase tracking-widest">Active</label>
+                       <label className="text-xs font-bold uppercase tracking-widest text-foreground">Active</label>
                     </div>
                     <div className="flex items-center gap-3">
                       <input type="checkbox" name="is_verified" defaultChecked={editingUser?.is_verified ?? false} className="w-5 h-5 rounded-lg text-primary focus:ring-primary" />
-                      <label className="text-xs font-bold uppercase tracking-widest">Verified</label>
+                       <label className="text-xs font-bold uppercase tracking-widest text-foreground">Verified</label>
                     </div>
                   </div>
                 </div>
@@ -204,10 +204,10 @@ function AdminUsers() {
 
         <div className="bg-card border border-border rounded-[32px] overflow-hidden shadow-sm">
           <div className="p-4 border-b border-border flex items-center gap-4 bg-muted/30">
-            <Search className="w-4 h-4 text-neutral-400" />
+            <Search className="w-4 h-4 text-muted-foreground" />
             <Input 
               placeholder="Search by name or email..." 
-              className="border-none shadow-none focus-visible:ring-0 bg-transparent text-sm h-10"
+              className="border-none shadow-none focus-visible:ring-0 bg-transparent text-sm h-10 text-foreground"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -215,11 +215,11 @@ function AdminUsers() {
           <Table>
             <TableHeader>
               <TableRow className="border-b border-border hover:bg-transparent">
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-6 h-14">User</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-6 h-14">Email</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-6 h-14 text-center">Level</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-6 h-14">Status</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-6 h-14 text-right">Actions</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">User</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">Email</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14 text-center">Level</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">Status</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14 text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -234,7 +234,7 @@ function AdminUsers() {
                   <TableCell className="px-6 py-5">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
-                        <UserIcon className="w-5 h-5 text-neutral-400" />
+                        <UserIcon className="w-5 h-5 text-muted-foreground" />
                       </div>
                       <span className="font-black uppercase tracking-tight text-sm">{user.full_name}</span>
                     </div>
@@ -250,7 +250,7 @@ function AdminUsers() {
                           <CheckCircle2 className="w-3 h-3" /> Active
                         </div>
                       ) : (
-                        <div className="flex items-center gap-1.5 text-neutral-400 text-[10px] font-black uppercase tracking-widest">
+                        <div className="flex items-center gap-1.5 text-muted-foreground text-[10px] font-black uppercase tracking-widest">
                           <XCircle className="w-3 h-3" /> Inactive
                         </div>
                       )}
@@ -275,7 +275,7 @@ function AdminUsers() {
                         variant="ghost" 
                         size="icon" 
                         onClick={() => setDeleteUserId(user.id)}
-                        className="rounded-xl hover:bg-red-500 hover:text-white transition-all text-neutral-400 hover:border-red-500"
+                        className="rounded-xl hover:bg-red-500 hover:text-white transition-all text-foreground hover:border-red-500"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </Button>
@@ -287,7 +287,7 @@ function AdminUsers() {
           </Table>
           {!isLoading && filteredUsers.length === 0 && (
             <div className="p-20 text-center">
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-400">No Users Found</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">No Users Found</p>
             </div>
           )}
         </div>

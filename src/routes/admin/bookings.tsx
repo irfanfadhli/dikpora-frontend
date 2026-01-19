@@ -84,20 +84,20 @@ function AdminBookings() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
           <div>
             <h1 className="text-3xl font-black tracking-tight uppercase mb-1">Reservation Ledger</h1>
-            <p className="text-sm font-bold text-neutral-400 uppercase tracking-widest">Global Schedule Tracking & Auditing</p>
+            <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Global Schedule Tracking & Auditing</p>
           </div>
           <div className="flex items-center gap-4 bg-muted/50 p-1.5 rounded-2xl border border-border shadow-sm">
             <Button variant="ghost" className="rounded-xl font-bold text-xs uppercase tracking-widest px-6 h-10">Active</Button>
-            <Button variant="ghost" className="rounded-xl font-bold text-xs uppercase tracking-widest px-6 h-10 text-neutral-400">Archived</Button>
+            <Button variant="ghost" className="rounded-xl font-bold text-xs uppercase tracking-widest px-6 h-10 text-muted-foreground">Archived</Button>
           </div>
         </div>
 
         <div className="bg-card border border-border rounded-[32px] overflow-hidden shadow-sm">
           <div className="p-4 border-b border-border flex items-center gap-4 bg-muted/30">
-            <Search className="w-4 h-4 text-neutral-400" />
+            <Search className="w-4 h-4 text-muted-foreground" />
             <Input 
               placeholder="Search by guest or room hex code..." 
-              className="border-none shadow-none focus-visible:ring-0 bg-transparent text-sm h-10"
+              className="border-none shadow-none focus-visible:ring-0 bg-transparent text-sm h-10 text-foreground"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -105,11 +105,11 @@ function AdminBookings() {
           <Table>
             <TableHeader>
               <TableRow className="border-b border-border hover:bg-transparent">
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-6 h-14">Identity</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-6 h-14">Space Code</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-6 h-14">Time Signature</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-6 h-14">Current Status</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-6 h-14 text-right">Verification</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">Identity</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">Space Code</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">Time Signature</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">Current Status</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14 text-right">Verification</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -139,7 +139,7 @@ function AdminBookings() {
                       <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-foreground/70">
                         <CalendarIcon className="w-3 h-3" /> {booking.booking_date}
                       </div>
-                      <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest text-neutral-400 mt-1">
+                      <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest text-muted-foreground mt-1">
                         <Clock className="w-3 h-3" /> {booking.start_time}-{booking.end_time}
                       </div>
                     </div>

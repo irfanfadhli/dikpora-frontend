@@ -454,7 +454,7 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
                     type="button"
                     variant="outline"
                     onClick={() => setStep('time')}
-                    className="flex-1 h-14 rounded-2xl font-black uppercase tracking-widest text-xs border-white/20 hover:bg-white/10 text-white"
+                    className="flex-1 h-14 rounded-2xl font-black uppercase tracking-widest text-xs border-border text-foreground hover:bg-muted"
                   >
                     Back
                   </Button>

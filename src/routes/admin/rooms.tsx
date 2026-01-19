@@ -114,7 +114,7 @@ function AdminRooms() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
           <div>
             <h1 className="text-3xl font-black tracking-tight uppercase mb-1">Room Management</h1>
-            <p className="text-sm font-bold text-neutral-400 uppercase tracking-widest">Inventory Control & Facility oversight</p>
+            <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Inventory Control & Facility oversight</p>
           </div>
           <Dialog open={isModalOpen} onOpenChange={(open) => { setIsModalOpen(open); if(!open) setEditingRoom(null); }}>
             <DialogTrigger asChild>
@@ -128,36 +128,36 @@ function AdminRooms() {
                 <DialogTitle className="text-2xl font-black uppercase tracking-tight">
                   {editingRoom ? 'Edit Space' : 'Define New Space'}
                 </DialogTitle>
-                <DialogDescription className="font-bold text-neutral-400 uppercase tracking-widest text-[10px]">
+                <DialogDescription className="font-bold text-muted-foreground uppercase tracking-widest text-[10px]">
                   Fill in the details for the facility room.
                 </DialogDescription>
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-6 mt-4">
                 <div className="space-y-4">
                   <div className="grid gap-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Name</label>
-                    <Input name="name" defaultValue={editingRoom?.name} required className="rounded-xl h-12 bg-muted border-none px-4" />
+                    <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Name</label>
+                    <Input name="name" defaultValue={editingRoom?.name} required className="rounded-xl h-12 bg-muted border-none px-4 text-foreground" />
                   </div>
                   <div className="grid gap-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Location</label>
-                    <Input name="location" defaultValue={editingRoom?.location} className="rounded-xl h-12 bg-muted border-none px-4" />
+                    <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Location</label>
+                    <Input name="location" defaultValue={editingRoom?.location} className="rounded-xl h-12 bg-muted border-none px-4 text-foreground" />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="grid gap-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Capacity</label>
-                      <Input name="capacity" type="number" defaultValue={editingRoom?.capacity} className="rounded-xl h-12 bg-muted border-none px-4" />
+                      <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Capacity</label>
+                      <Input name="capacity" type="number" defaultValue={editingRoom?.capacity} className="rounded-xl h-12 bg-muted border-none px-4 text-foreground" />
                     </div>
                     <div className="flex items-center gap-3 pt-6">
                       <input type="checkbox" name="active" defaultChecked={editingRoom?.active ?? true} className="w-5 h-5 rounded-lg text-primary focus:ring-primary" />
-                      <label className="text-xs font-bold uppercase tracking-widest">Active</label>
+                      <label className="text-xs font-bold uppercase tracking-widest text-foreground">Active</label>
                     </div>
                   </div>
                   <div className="grid gap-2 pt-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Room Image</label>
+                    <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Room Image</label>
                     <div className="relative border-2 border-dashed border-border rounded-2xl p-6 text-center group hover:border-muted-foreground/30 transition-colors">
-                      <Input name="image" type="file" className="absolute inset-0 opacity-0 cursor-pointer" />
-                      <FileImage className="w-8 h-8 mx-auto text-neutral-300 group-hover:text-neutral-500 mb-2" />
-                      <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Drag or Click to Upload</p>
+                      <Input name="image" type="file" className="absolute inset-0 opacity-0 cursor-pointer text-foreground" />
+                      <FileImage className="w-8 h-8 mx-auto text-muted-foreground group-hover:text-foreground mb-2" />
+                      <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Drag or Click to Upload</p>
                     </div>
                   </div>
                 </div>
@@ -174,10 +174,10 @@ function AdminRooms() {
 
         <div className="border border-border rounded-[32px] overflow-hidden shadow-sm">
           <div className="p-4 border-b border-border flex items-center gap-4">
-            <Search className="w-4 h-4 text-neutral-400" />
+            <Search className="w-4 h-4 text-muted-foreground" />
             <Input 
               placeholder="Filter rooms by name..." 
-              className="border-none shadow-none focus-visible:ring-0 bg-transparent text-sm h-10"
+              className="border-none shadow-none focus-visible:ring-0 bg-transparent text-sm h-10 text-foreground"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -185,12 +185,12 @@ function AdminRooms() {
           <Table>
             <TableHeader>
               <TableRow className="border-b border-border hover:bg-transparent">
-                <TableHead className="w-[80px] text-[10px] font-black uppercase tracking-widest text-neutral-400 px-6 h-14">Image</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-6 h-14">Name</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-6 h-14">Location</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-6 h-14 text-center">People</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-6 h-14">Status</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-6 h-14 text-right">Actions</TableHead>
+                <TableHead className="w-[80px] text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">Image</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">Name</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">Location</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14 text-center">People</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">Status</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14 text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -216,7 +216,7 @@ function AdminRooms() {
                     </div>
                   </TableCell>
                   <TableCell className="px-6 py-4 font-black uppercase tracking-tight text-sm truncate max-w-[200px]">{room.name}</TableCell>
-                  <TableCell className="px-6 py-4 font-bold text-neutral-400 uppercase tracking-widest text-[10px]">{room.location || '-'}</TableCell>
+                  <TableCell className="px-6 py-4 font-bold text-muted-foreground uppercase tracking-widest text-[10px]">{room.location || '-'}</TableCell>
                   <TableCell className="px-6 py-4 text-center">
                     <Badge variant="secondary" className="rounded-lg px-2 text-[10px] font-black">{room.capacity || 0}</Badge>
                   </TableCell>
@@ -226,26 +226,26 @@ function AdminRooms() {
                         <CheckCircle2 className="w-3 h-3" /> Active
                       </div>
                     ) : (
-                      <div className="flex items-center gap-1.5 text-neutral-400 text-[10px] font-black uppercase tracking-widest">
+                      <div className="flex items-center gap-1.5 text-muted-foreground text-[10px] font-black uppercase tracking-widest">
                         <XCircle className="w-3 h-3" /> Offline
                       </div>
                     )}
                   </TableCell>
                   <TableCell className="px-6 py-4 text-right">
                     <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Button variant="ghost" size="icon" onClick={() => { setEditingRoom(room); setIsModalOpen(true); }} className="rounded-xl hover:bg-neutral-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
+                      <Button variant="ghost" size="icon" onClick={() => { setEditingRoom(room); setIsModalOpen(true); }} className="rounded-xl hover:bg-primary hover:text-primary-foreground transition-all">
                         <Edit2 className="w-3.5 h-3.5" />
                       </Button>
                       <AlertDialog open={deletingRoomId === room.id} onOpenChange={(open) => !open && setDeletingRoomId(null)}>
                         <AlertDialogTrigger asChild>
-                          <Button variant="ghost" size="icon" onClick={() => setDeletingRoomId(room.id)} className="rounded-xl hover:bg-red-500 hover:text-white transition-all text-neutral-400 hover:border-red-500">
+                          <Button variant="ghost" size="icon" onClick={() => setDeletingRoomId(room.id)} className="rounded-xl hover:bg-red-500 hover:text-white transition-all text-muted-foreground hover:border-red-500">
                             <Trash2 className="w-3.5 h-3.5" />
                           </Button>
                         </AlertDialogTrigger>
                         <AlertDialogContent className="sm:max-w-[425px] rounded-[32px] border-none shadow-2xl">
                           <AlertDialogHeader>
                             <AlertDialogTitle className="text-2xl font-black uppercase tracking-tight">Delete Room</AlertDialogTitle>
-                            <AlertDialogDescription className="font-bold text-neutral-400 uppercase tracking-widest text-[10px]">
+                            <AlertDialogDescription className="font-bold text-muted-foreground uppercase tracking-widest text-[10px]">
                               Are you sure you want to erase "{room.name}"? This action cannot be undone.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
