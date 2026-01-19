@@ -36,6 +36,7 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
   const [guestName, setGuestName] = React.useState('')
   const [guestEmail, setGuestEmail] = React.useState('')
   const [guestPhone, setGuestPhone] = React.useState('')
+  const [purpose, setPurpose] = React.useState('')
 
   // Generate available dates
   const availableDates = React.useMemo(() => {
@@ -200,6 +201,7 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
       booking_date: format(selectedDate, 'yyyy-MM-dd'),
       start_time: startTime,
       end_time: dbEndTime,
+      purpose: purpose,
       status: 'pending'
     })
   }
@@ -212,6 +214,7 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
     setGuestName('')
     setGuestEmail('')
     setGuestPhone('')
+    setPurpose('')
   }
 
   const handleClose = () => {
@@ -454,6 +457,21 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
                       />
                     </div>
                   </div>
+
+                  <div>
+                    <label className="text-[10px] font-black uppercase tracking-widest text-foreground mb-2 block">
+                      Meeting Needs / Purpose *
+                    </label>
+                    <div className="relative">
+                      <Input
+                        required
+                        value={purpose}
+                        onChange={(e) => setPurpose(e.target.value)}
+                        className="h-14 rounded-2xl border-2 font-bold text-foreground"
+                        placeholder="What is this meeting for?"
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <div className="flex gap-3 pt-4">
@@ -506,6 +524,10 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
                   <div className="flex justify-between">
                     <span className="text-neutral-400 font-bold">Guest:</span>
                     <span className="font-black">{guestName}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-neutral-400 font-bold">Purpose:</span>
+                    <span className="font-black">{purpose}</span>
                   </div>
                 </div>
               </div>

@@ -108,6 +108,7 @@ function AdminBookings() {
                 <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">Identity</TableHead>
                 <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">Space Code</TableHead>
                 <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">Time Signature</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">Purpose</TableHead>
                 <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">Current Status</TableHead>
                 <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14 text-right">Verification</TableHead>
               </TableRow>
@@ -143,6 +144,11 @@ function AdminBookings() {
                         <Clock className="w-3 h-3" /> {booking.start_time}-{booking.end_time}
                       </div>
                     </div>
+                  </TableCell>
+                  <TableCell className="px-6 py-5">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-foreground/80 line-clamp-2 max-w-[200px]">
+                      {booking.purpose || '-'}
+                    </span>
                   </TableCell>
                   <TableCell className="px-6 py-5">{getStatusBadge(booking.status)}</TableCell>
                   <TableCell className="px-6 py-5 text-right">
