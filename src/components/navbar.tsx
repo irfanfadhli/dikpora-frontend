@@ -119,7 +119,7 @@ export function Navbar() {
                 onClick={() => {
                   toggleTheme();
                 }}
-                className="p-2 hover:bg-gray-400 rounded transition"
+                className="p-2 hover:bg-accent rounded transition"
                 title={isDark ? "Switch to light mode" : "Switch to dark mode"}
               >
                 {isDark ? (

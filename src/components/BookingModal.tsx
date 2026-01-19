@@ -225,7 +225,7 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-y-auto rounded-[32px] p-0 border-none shadow-2xl">
         {/* Header */}
-        <div className="sticky top-0 bg-white dark:bg-neutral-950 border-b border-neutral-100 dark:border-neutral-900 p-8 z-10">
+        <div className="sticky top-0 bg-card border-b border-border p-8 z-10">
           <DialogHeader>
             <DialogTitle className="text-2xl font-black uppercase tracking-tight">
               Book {room.name}
@@ -239,28 +239,28 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
           <div className="flex items-center gap-4 mt-6">
             <div className={`flex items-center gap-2 ${step === 'date' ? 'text-blue-600' : ['time', 'form', 'success'].includes(step) ? 'text-neutral-400' : ''}`}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black ${
-                step === 'date' ? 'bg-blue-600 text-white' : 
-                ['time', 'form', 'success'].includes(step) ? 'bg-emerald-500 text-white' : 'bg-neutral-100 dark:bg-neutral-900'
+                step === 'date' ? 'bg-primary text-primary-foreground' : 
+                ['time', 'form', 'success'].includes(step) ? 'bg-emerald-500 text-white' : 'bg-muted'
               }`}>
                 {['time', 'form', 'success'].includes(step) ? '✓' : '1'}
               </div>
               <span className="text-[10px] font-black uppercase tracking-widest">Date</span>
             </div>
-            <div className="flex-1 h-px bg-neutral-200 dark:bg-neutral-800" />
+            <div className="flex-1 h-px bg-border" />
             <div className={`flex items-center gap-2 ${step === 'time' ? 'text-blue-600' : ['form', 'success'].includes(step) ? 'text-neutral-400' : ''}`}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black ${
-                step === 'time' ? 'bg-blue-600 text-white' : 
-                ['form', 'success'].includes(step) ? 'bg-emerald-500 text-white' : 'bg-neutral-100 dark:bg-neutral-900'
+                step === 'time' ? 'bg-primary text-primary-foreground' : 
+                ['form', 'success'].includes(step) ? 'bg-emerald-500 text-white' : 'bg-muted'
               }`}>
                 {['form', 'success'].includes(step) ? '✓' : '2'}
               </div>
               <span className="text-[10px] font-black uppercase tracking-widest">Time</span>
             </div>
-            <div className="flex-1 h-px bg-neutral-200 dark:bg-neutral-800" />
+            <div className="flex-1 h-px bg-border" />
             <div className={`flex items-center gap-2 ${step === 'form' ? 'text-blue-600' : step === 'success' ? 'text-neutral-400' : ''}`}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black ${
                 step === 'form' ? 'bg-blue-600 text-white' : 
-                step === 'success' ? 'bg-emerald-500 text-white' : 'bg-neutral-100 dark:bg-neutral-900'
+                step === 'success' ? 'bg-emerald-500 text-white' : 'bg-muted'
               }`}>
                 {step === 'success' ? '✓' : '3'}
               </div>
@@ -285,8 +285,8 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
                     onClick={() => handleDateSelect(date)}
                     className={`relative p-4 rounded-2xl border-2 transition-all hover:scale-105 ${
                       selectedDate?.toDateString() === date.toDateString()
-                        ? 'border-blue-600 bg-blue-50 dark:bg-blue-950'
-                        : 'border-neutral-200 dark:border-neutral-800 hover:border-blue-300'
+                        ? 'border-primary bg-primary/5'
+                        : 'border-border hover:border-primary/50'
                     }`}
                   >
                     <div className="text-center">
@@ -332,12 +332,12 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
                       disabled={status === 'booked' || status === 'past'}
                       className={`relative p-4 rounded-2xl border-2 transition-all ${
                         status === 'available' 
-                          ? 'border-neutral-200 dark:border-neutral-800 hover:border-blue-600 hover:scale-105' 
+                          ? 'border-border hover:border-primary hover:scale-105' 
                           : status === 'selected'
-                          ? 'border-blue-600 bg-blue-600 text-white scale-105 shadow-md'
+                          ? 'border-primary bg-primary text-primary-foreground scale-105 shadow-md'
                           : status === 'in-range'
-                          ? 'border-blue-200 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-800'
-                          : 'opacity-40 cursor-not-allowed border-neutral-100 dark:border-neutral-900'
+                          ? 'border-primary/20 bg-primary/5'
+                          : 'opacity-40 cursor-not-allowed border-border/50'
                       }`}
                     >
                       <div className="flex items-center justify-center gap-2">
@@ -370,7 +370,7 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
                   </Button>
               </div>
 
-              <div className="flex items-center gap-6 mt-8 pt-6 border-t border-neutral-100 dark:border-neutral-900">
+              <div className="flex items-center gap-6 mt-8 pt-6 border-t border-border">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-emerald-500" />
                   <span className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Available</span>
@@ -474,7 +474,7 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
           {/* Step 4: Success */}
           {step === 'success' && (
             <div className="text-center py-12">
-              <div className="w-20 h-20 bg-emerald-100 dark:bg-emerald-950 rounded-full flex items-center justify-center mx-auto mb-6">
+              <div className="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
                 <CheckCircle2 className="w-10 h-10 text-emerald-600" />
               </div>
               <h3 className="text-2xl font-black uppercase tracking-tight mb-2">Booking Confirmed!</h3>
@@ -482,7 +482,7 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
                 Your reservation has been successfully created
               </p>
               
-              <div className="bg-neutral-50 dark:bg-neutral-900 rounded-2xl p-6 mb-8 text-left max-w-md mx-auto">
+              <div className="bg-muted/50 rounded-2xl p-6 mb-8 text-left max-w-md mx-auto">
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
                     <span className="text-neutral-400 font-bold">Room:</span>
