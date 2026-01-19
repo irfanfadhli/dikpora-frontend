@@ -207,9 +207,9 @@ function Index() {
             <div className="lg:col-span-4 space-y-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary font-black text-xl">
-                  D
+                  <img src="/logo-kabupaten-bantul.png" alt="LogoPemda" />
                 </div>
-                <span className="text-xl font-bold tracking-tight">DikporaRoom</span>
+                <span className="text-xl font-bold tracking-tight">RuangKita</span>
               </div>
               <p className="text-muted-foreground leading-relaxed text-sm max-w-xs">
                 Streamlining government workspace allocation with intelligent digital solutions.

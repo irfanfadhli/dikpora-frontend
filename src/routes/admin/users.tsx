@@ -142,7 +142,7 @@ function AdminUsers() {
   return (
     <div className="flex">
       <AdminSidebar />
-      <div className="flex-1 p-6 md:p-10">
+      <div className="flex-1 p-6 md:p-10 bg-background">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
           <div>
             <h1 className="text-3xl font-black tracking-tight uppercase mb-1">User Management</h1>
@@ -168,16 +168,16 @@ function AdminUsers() {
                 <div className="space-y-4">
                   <div className="grid gap-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Full Name *</label>
-                    <Input name="full_name" defaultValue={editingUser?.full_name} required className="rounded-xl h-12 bg-neutral-50 dark:bg-neutral-900 border-none px-4" />
+                    <Input name="full_name" defaultValue={editingUser?.full_name} required className="rounded-xl h-12 bg-muted border-none px-4" />
                   </div>
                   <div className="grid gap-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Email Address *</label>
-                    <Input name="email" type="email" defaultValue={editingUser?.email} required className="rounded-xl h-12 bg-neutral-50 dark:bg-neutral-900 border-none px-4" />
+                    <Input name="email" type="email" defaultValue={editingUser?.email} required className="rounded-xl h-12 bg-muted border-none px-4" />
                   </div>
                   {!editingUser && (
                     <div className="grid gap-2">
                       <label className="text-[10px] font-black uppercase tracking-widest text-neutral-400">Password *</label>
-                      <Input name="password" type="password" required minLength={8} className="rounded-xl h-12 bg-neutral-50 dark:bg-neutral-900 border-none px-4" placeholder="Minimum 8 characters" />
+                      <Input name="password" type="password" required minLength={8} className="rounded-xl h-12 bg-muted border-none px-4" placeholder="Minimum 8 characters" />
                     </div>
                   )}
                   <div className="grid grid-cols-2 gap-4 pt-2">
@@ -202,8 +202,8 @@ function AdminUsers() {
           </Dialog>
         </div>
 
-        <div className="bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-[32px] overflow-hidden shadow-sm">
-          <div className="p-4 border-b border-neutral-200 dark:border-neutral-800 flex items-center gap-4 bg-neutral-50/50 dark:bg-neutral-900/50">
+        <div className="bg-card border border-border rounded-[32px] overflow-hidden shadow-sm">
+          <div className="p-4 border-b border-border flex items-center gap-4 bg-muted/30">
             <Search className="w-4 h-4 text-neutral-400" />
             <Input 
               placeholder="Search by name or email..." 
@@ -214,7 +214,7 @@ function AdminUsers() {
           </div>
           <Table>
             <TableHeader>
-              <TableRow className="border-b border-neutral-200 dark:border-neutral-800 hover:bg-transparent">
+              <TableRow className="border-b border-border hover:bg-transparent">
                 <TableHead className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-6 h-14">User</TableHead>
                 <TableHead className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-6 h-14">Email</TableHead>
                 <TableHead className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-6 h-14 text-center">Level</TableHead>
@@ -226,20 +226,20 @@ function AdminUsers() {
               {isLoading ? (
                 [1, 2, 3, 4].map(i => (
                   <TableRow key={i} className="animate-pulse">
-                    <TableCell colSpan={5} className="h-20 px-6"><div className="h-4 bg-neutral-100 dark:bg-neutral-900 rounded-full w-full" /></TableCell>
+                    <TableCell colSpan={5} className="h-20 px-6"><div className="h-4 bg-muted rounded-full w-full" /></TableCell>
                   </TableRow>
                 ))
               ) : filteredUsers.map(user => (
-                <TableRow key={user.id} className="group border-b border-neutral-100 dark:border-neutral-900 hover:bg-neutral-50/50 dark:hover:bg-neutral-900/50 transition-colors">
+                <TableRow key={user.id} className="group border-b border-border/50 hover:bg-muted/30 transition-colors">
                   <TableCell className="px-6 py-5">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-neutral-100 dark:bg-neutral-900 flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
                         <UserIcon className="w-5 h-5 text-neutral-400" />
                       </div>
                       <span className="font-black uppercase tracking-tight text-sm">{user.full_name}</span>
                     </div>
                   </TableCell>
-                  <TableCell className="px-6 py-5 font-mono text-xs text-neutral-400">{user.email}</TableCell>
+                  <TableCell className="px-6 py-5 font-mono text-xs text-muted-foreground">{user.email}</TableCell>
                   <TableCell className="px-6 py-5 text-center">
                     {getLevelBadge(user.level)}
                   </TableCell>
@@ -267,7 +267,7 @@ function AdminUsers() {
                         variant="ghost" 
                         size="icon" 
                         onClick={() => { setEditingUser(user); setIsModalOpen(true); }} 
-                        className="rounded-xl hover:bg-neutral-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all"
+                        className="rounded-xl hover:bg-primary hover:text-primary-foreground transition-all"
                       >
                         <Edit2 className="w-3.5 h-3.5" />
                       </Button>

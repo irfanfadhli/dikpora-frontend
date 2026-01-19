@@ -2,13 +2,21 @@ import * as React from 'react'
 import { Link, useNavigate, useRouter } from '@tanstack/react-router'
 import { authService } from '@/lib/services'
 import { Button } from '@/components/ui/button'
-import { LogOut, Menu, X, Sparkles } from 'lucide-react'
+import { LogOut, Menu, X } from 'lucide-react'
+import { ModeToggle } from '@/components/mode-toogle'
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "@/components/theme-provider";
+
 
 export function Navbar() {
   const navigate = useNavigate()
   const router = useRouter()
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
   const [isAuthenticated, setIsAuthenticated] = React.useState(authService.isAuthenticated())
+  const { theme, setTheme } = useTheme();
+  const isDark = theme === "dark";
+  const toggleTheme = () => setTheme(isDark ? "light" : "dark");
+
 
   // Listen for route changes to update auth state
   React.useEffect(() => {
@@ -28,7 +36,7 @@ export function Navbar() {
     return () => {
       window.removeEventListener('storage', checkAuth)
       window.removeEventListener('auth-change', checkAuth)
-    }
+    } 
   }, [router.state.location.pathname])
 
   const handleLogout = () => {
@@ -47,7 +55,7 @@ export function Navbar() {
               alt="DikporaRoom Logo" 
               className="h-8 w-auto object-contain transition-transform group-hover:scale-105" 
             />
-            <span className="font-bold text-lg tracking-tight text-foreground">DikporaRoom</span>
+            <span className="font-bold text-lg tracking-tight text-foreground">RuangKita</span>
           </Link>
           
           <div className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
@@ -107,8 +115,20 @@ export function Navbar() {
                 </Link>
               </>
             )}
+                <button
+                onClick={() => {
+                  toggleTheme();
+                }}
+                className="p-2 hover:bg-gray-400 rounded transition"
+                title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+              >
+                {isDark ? (
+                  <Sun className="w-5 h-5" />
+                ) : (
+                  <Moon className="w-5 h-5" />
+                )}
+              </button>
           </div>
-
           <div className="md:hidden">
             <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
               {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -116,6 +136,7 @@ export function Navbar() {
           </div>
         </div>
       </div>
+      
 
       {/* Mobile Menu */}
       {isMenuOpen && (

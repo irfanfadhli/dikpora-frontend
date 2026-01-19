@@ -80,20 +80,20 @@ function AdminBookings() {
   return (
     <div className="flex">
       <AdminSidebar />
-      <div className="flex-1 p-6 md:p-10">
+      <div className="flex-1 p-6 md:p-10 bg-background">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
           <div>
             <h1 className="text-3xl font-black tracking-tight uppercase mb-1">Reservation Ledger</h1>
             <p className="text-sm font-bold text-neutral-400 uppercase tracking-widest">Global Schedule Tracking & Auditing</p>
           </div>
-          <div className="flex items-center gap-4 bg-white dark:bg-neutral-900 p-1.5 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-sm">
+          <div className="flex items-center gap-4 bg-muted/50 p-1.5 rounded-2xl border border-border shadow-sm">
             <Button variant="ghost" className="rounded-xl font-bold text-xs uppercase tracking-widest px-6 h-10">Active</Button>
             <Button variant="ghost" className="rounded-xl font-bold text-xs uppercase tracking-widest px-6 h-10 text-neutral-400">Archived</Button>
           </div>
         </div>
 
-        <div className="bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-[32px] overflow-hidden shadow-sm">
-          <div className="p-4 border-b border-neutral-200 dark:border-neutral-800 flex items-center gap-4 bg-neutral-50/50 dark:bg-neutral-900/50">
+        <div className="bg-card border border-border rounded-[32px] overflow-hidden shadow-sm">
+          <div className="p-4 border-b border-border flex items-center gap-4 bg-muted/30">
             <Search className="w-4 h-4 text-neutral-400" />
             <Input 
               placeholder="Search by guest or room hex code..." 
@@ -104,7 +104,7 @@ function AdminBookings() {
           </div>
           <Table>
             <TableHeader>
-              <TableRow className="border-b border-neutral-200 dark:border-neutral-800 hover:bg-transparent">
+              <TableRow className="border-b border-border hover:bg-transparent">
                 <TableHead className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-6 h-14">Identity</TableHead>
                 <TableHead className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-6 h-14">Space Code</TableHead>
                 <TableHead className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-6 h-14">Time Signature</TableHead>
@@ -116,27 +116,27 @@ function AdminBookings() {
               {isLoading ? (
                 [1, 2, 3].map(i => (
                   <TableRow key={i} className="animate-pulse">
-                    <TableCell colSpan={5} className="h-20 px-6"><div className="h-4 bg-neutral-100 dark:bg-neutral-900 rounded-full w-full" /></TableCell>
+                    <TableCell colSpan={5} className="h-20 px-6"><div className="h-4 bg-muted rounded-full w-full" /></TableCell>
                   </TableRow>
                 ))
               ) : filteredBookings.map(booking => (
-                <TableRow key={booking.id} className="border-b border-neutral-100 dark:border-neutral-900 hover:bg-neutral-50/50 dark:hover:bg-neutral-900/50 transition-colors">
+                <TableRow key={booking.id} className="border-b border-border/50 hover:bg-muted/30 transition-colors">
                   <TableCell className="px-6 py-5">
                     <div className="flex flex-col">
-                      <span className="font-black uppercase tracking-tight text-sm text-neutral-900 dark:text-white">{booking.guest_name}</span>
+                      <span className="font-black uppercase tracking-tight text-sm text-foreground">{booking.guest_name}</span>
                       <div className="flex items-center gap-2 mt-1 opacity-50 font-bold text-[9px] uppercase tracking-widest">
                         <Mail className="w-2.5 h-2.5" /> {booking.guest_email || 'n/a'}
                       </div>
                     </div>
                   </TableCell>
                   <TableCell className="px-6 py-5">
-                    <code className="bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded-lg text-[10px] font-bold text-neutral-400">
+                    <code className="bg-muted px-2 py-1 rounded-lg text-[10px] font-bold text-muted-foreground">
                       {booking.room_id.substring(0, 8)}
                     </code>
                   </TableCell>
                   <TableCell className="px-6 py-5">
                     <div className="flex flex-col">
-                      <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-neutral-600 dark:text-neutral-300">
+                      <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-foreground/70">
                         <CalendarIcon className="w-3 h-3" /> {booking.booking_date}
                       </div>
                       <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest text-neutral-400 mt-1">
@@ -150,13 +150,13 @@ function AdminBookings() {
                       <select 
                         value={booking.status}
                         onChange={(e) => updateStatusMutation.mutate({ id: booking.id, status: e.target.value })}
-                        className="bg-neutral-100 dark:bg-neutral-900 border-none rounded-xl text-[10px] font-black uppercase tracking-widest px-3 py-1.5 focus:ring-2 focus:ring-neutral-900 outline-none appearance-none cursor-pointer"
+                        className="bg-muted border-none rounded-xl text-[10px] font-black uppercase tracking-widest px-3 py-1.5 focus:ring-2 focus:ring-ring outline-none appearance-none cursor-pointer"
                       >
                         <option value="pending">Pending</option>
                         <option value="confirmed">Confirm</option>
                         <option value="cancelled">Cancel</option>
                       </select>
-                      <Button variant="ghost" size="icon" onClick={() => { if(confirm('Purge record?')) deleteMutation.mutate(booking.id) }} className="rounded-xl hover:bg-neutral-100 transition-all opacity-0 group-hover:opacity-100">
+                      <Button variant="ghost" size="icon" onClick={() => { if(confirm('Purge record?')) deleteMutation.mutate(booking.id) }} className="rounded-xl hover:bg-destructive/10 hover:text-destructive transition-all opacity-0 group-hover:opacity-100">
                         <XCircle className="w-3.5 h-3.5 text-neutral-300" />
                       </Button>
                     </div>

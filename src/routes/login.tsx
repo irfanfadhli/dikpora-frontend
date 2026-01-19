@@ -82,7 +82,7 @@ function Login() {
                 </div>
                 <Button 
                 type="submit" 
-                className="w-full h-11 rounded-lg font-medium text-sm gap-2 mt-4 shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300" 
+                className="w-full h-11 rounded-full font-medium text-sm gap-2 mt-4 shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300" 
                 disabled={loading}
                 >
                 {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Log In'}
