@@ -74,7 +74,7 @@ function UserDashboard() {
             </div>
             <div>
                 <h1 className="text-3xl font-bold tracking-tight text-foreground">My Dashboard</h1>
-                <p className="text-muted-foreground">Manage your reservations and activity.</p>
+                <p className="text-foreground">Manage your reservations and activity.</p>
             </div>
         </div>
 
@@ -112,7 +112,7 @@ function UserDashboard() {
                             {getStatusBadge(booking.status)}
                         </div>
                         
-                        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
+                        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-foreground">
                             <div className="flex items-center gap-2">
                                 <Badge variant="outline" className="font-mono text-xs bg-background/50">
                                     {booking.room_id.substring(0, 8)}
@@ -129,7 +129,7 @@ function UserDashboard() {
                         </div>
                         
                         {booking.purpose && (
-                        <p className="text-sm text-foreground/80 pl-1 border-l-2 border-primary/20">
+                        <p className="text-sm text-foreground pl-1 border-l-2 border-primary/20">
                             {booking.purpose}
                         </p>
                         )}
@@ -155,12 +155,12 @@ function UserDashboard() {
                 ))}
                 </div>
             ) : (
-                <div className="flex flex-col items-center justify-center py-16 text-center text-muted-foreground">
+                <div className="flex flex-col items-center justify-center py-16 text-center text-foreground">
                     <div className="w-16 h-16 rounded-full bg-muted/50 flex items-center justify-center mb-4">
-                        <CalendarIcon className="w-8 h-8 opacity-50" />
+                        <CalendarIcon className="w-8 h-8 text-foreground" />
                     </div>
                     <p className="text-lg font-medium text-foreground">No bookings found</p>
-                    <p className="text-sm max-w-sm mt-1 mb-6">You haven't made any room reservations yet.</p>
+                    <p className="text-sm max-w-sm mt-1 mb-6 text-foreground">You haven't made any room reservations yet.</p>
                     <Button onClick={() => window.location.href = '/'}>
                         Browse Rooms
                     </Button>

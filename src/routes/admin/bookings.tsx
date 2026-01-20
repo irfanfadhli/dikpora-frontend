@@ -71,7 +71,7 @@ function AdminBookings() {
       case 'pending':
         return <Badge className="bg-amber-50 text-amber-600 border-amber-100 hover:bg-amber-100 rounded-lg px-2 py-0.5 text-[10px] font-black uppercase tracking-widest shadow-none">Pending</Badge>
       case 'cancelled':
-        return <Badge className="bg-neutral-100 text-neutral-400 border-neutral-200 hover:bg-neutral-200 rounded-lg px-2 py-0.5 text-[10px] font-black uppercase tracking-widest shadow-none">Cancelled</Badge>
+        return <Badge className="bg-neutral-500/20 text-foreground border-neutral-200 hover:bg-neutral-500/30 rounded-lg px-2 py-0.5 text-[10px] font-black uppercase tracking-widest shadow-none">Cancelled</Badge>
       default:
         return <Badge variant="outline">{status}</Badge>
     }
@@ -84,17 +84,17 @@ function AdminBookings() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
           <div>
             <h1 className="text-3xl font-black tracking-tight uppercase mb-1">Reservation Ledger</h1>
-            <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Global Schedule Tracking & Auditing</p>
+            <p className="text-sm font-bold text-foreground uppercase tracking-widest">Global Schedule Tracking & Auditing</p>
           </div>
           <div className="flex items-center gap-4 bg-muted/50 p-1.5 rounded-2xl border border-border shadow-sm">
             <Button variant="ghost" className="rounded-xl font-bold text-xs uppercase tracking-widest px-6 h-10">Active</Button>
-            <Button variant="ghost" className="rounded-xl font-bold text-xs uppercase tracking-widest px-6 h-10 text-muted-foreground">Archived</Button>
+            <Button variant="ghost" className="rounded-xl font-bold text-xs uppercase tracking-widest px-6 h-10 text-foreground">Archived</Button>
           </div>
         </div>
 
         <div className="bg-card border border-border rounded-[32px] overflow-hidden shadow-sm">
           <div className="p-4 border-b border-border flex items-center gap-4 bg-muted/30">
-            <Search className="w-4 h-4 text-muted-foreground" />
+            <Search className="w-4 h-4 text-foreground" />
             <Input 
               placeholder="Search by guest or room hex code..." 
               className="border-none shadow-none focus-visible:ring-0 bg-transparent text-sm h-10 text-foreground"
@@ -105,12 +105,12 @@ function AdminBookings() {
           <Table>
             <TableHeader>
               <TableRow className="border-b border-border hover:bg-transparent">
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">Identity</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">Space Code</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">Time Signature</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">Purpose</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">Current Status</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14 text-right">Verification</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-foreground px-6 h-14">Identity</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-foreground px-6 h-14">Space Code</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-foreground px-6 h-14">Time Signature</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-foreground px-6 h-14">Purpose</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-foreground px-6 h-14">Current Status</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-foreground px-6 h-14 text-right">Verification</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -125,28 +125,28 @@ function AdminBookings() {
                   <TableCell className="px-6 py-5">
                     <div className="flex flex-col">
                       <span className="font-black uppercase tracking-tight text-sm text-foreground">{booking.guest_name}</span>
-                      <div className="flex items-center gap-2 mt-1 opacity-50 font-bold text-[9px] uppercase tracking-widest">
+                      <div className="flex items-center gap-2 mt-1 font-bold text-[9px] uppercase tracking-widest text-foreground">
                         <Mail className="w-2.5 h-2.5" /> {booking.guest_email || 'n/a'}
                       </div>
                     </div>
                   </TableCell>
                   <TableCell className="px-6 py-5">
-                    <code className="bg-muted px-2 py-1 rounded-lg text-[10px] font-bold text-muted-foreground">
+                    <code className="bg-muted px-2 py-1 rounded-lg text-[10px] font-bold text-foreground">
                       {booking.room_id.substring(0, 8)}
                     </code>
                   </TableCell>
                   <TableCell className="px-6 py-5">
                     <div className="flex flex-col">
-                      <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-foreground/70">
+                      <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-foreground">
                         <CalendarIcon className="w-3 h-3" /> {booking.booking_date}
                       </div>
-                      <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest text-muted-foreground mt-1">
+                      <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest text-foreground mt-1">
                         <Clock className="w-3 h-3" /> {booking.start_time}-{booking.end_time}
                       </div>
                     </div>
                   </TableCell>
                   <TableCell className="px-6 py-5">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-foreground/80 line-clamp-2 max-w-[200px]">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-foreground line-clamp-2 max-w-[200px]">
                       {booking.purpose || '-'}
                     </span>
                   </TableCell>
@@ -163,7 +163,7 @@ function AdminBookings() {
                         <option value="cancelled">Cancel</option>
                       </select>
                       <Button variant="ghost" size="icon" onClick={() => { if(confirm('Purge record?')) deleteMutation.mutate(booking.id) }} className="rounded-xl hover:bg-destructive/10 hover:text-destructive transition-all lg:opacity-0 lg:group-hover:opacity-100">
-                        <XCircle className="w-3.5 h-3.5 text-neutral-300" />
+                        <XCircle className="w-3.5 h-3.5 text-foreground" />
                       </Button>
                     </div>
                   </TableCell>
@@ -172,7 +172,7 @@ function AdminBookings() {
             </TableBody>
           </Table>
           {!isLoading && filteredBookings.length === 0 && (
-            <div className="p-20 text-center opacity-30 text-[10px] font-black uppercase tracking-[0.3em]">Zero Log Records</div>
+            <div className="p-20 text-center text-[10px] font-black uppercase tracking-[0.3em] text-foreground">Zero Log Records</div>
           )}
         </div>
       </div>

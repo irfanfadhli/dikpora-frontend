@@ -13,7 +13,7 @@ function AboutComponent() {
         <CardHeader>
           <CardTitle className="text-3xl font-bold tracking-tight">About DikporaRoom</CardTitle>
         </CardHeader>
-        <CardContent className="prose dark:prose-invert max-w-none text-muted-foreground">
+        <CardContent className="prose dark:prose-invert max-w-none text-foreground">
           <p>
             DikporaRoom is a modern room booking management system designed to streamline workspace allocation.
           </p>

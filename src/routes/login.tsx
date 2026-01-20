@@ -53,7 +53,7 @@ function Login() {
             </div>
             <div className="space-y-1">
                 <CardTitle className="text-2xl font-bold tracking-tight">Welcome Back</CardTitle>
-                <CardDescription className="text-muted-foreground text-sm tracking-wide">
+                <CardDescription className="text-foreground text-sm tracking-wide">
                 Sign in to your account
                 </CardDescription>
             </div>
@@ -61,7 +61,7 @@ function Login() {
             <CardContent className="pb-8 px-8">
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
-                <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80 ml-1">Email</label>
+                <label className="text-xs font-semibold uppercase tracking-wider text-foreground ml-1">Email</label>
                 <Input 
                     name="email" 
                     type="email" 
@@ -71,7 +71,7 @@ function Login() {
                 />
                 </div>
                 <div className="space-y-2">
-                <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80 ml-1">Password</label>
+                <label className="text-xs font-semibold uppercase tracking-wider text-foreground ml-1">Password</label>
                 <Input 
                     name="password" 
                     type="password" 
@@ -91,7 +91,7 @@ function Login() {
             </form>
             </CardContent>
             <CardFooter className="pb-8 pt-0 text-center justify-center">
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-foreground">
                 Don't have an account? <span className="text-primary font-medium hover:underline cursor-pointer">Contact Admin</span>
             </p>
             </CardFooter>

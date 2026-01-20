@@ -129,7 +129,7 @@ function AdminUsers() {
   const getLevelBadge = (level: string) => {
     const levels = {
       'admin': { label: 'Admin', className: 'bg-blue-50 text-blue-600 border-blue-100' },
-      'user': { label: 'User', className: 'bg-neutral-50 text-neutral-600 border-neutral-100' },
+      'user': { label: 'User', className: 'bg-neutral-500/20 text-foreground border-neutral-100' },
     }
     const levelInfo = levels[level as keyof typeof levels] || levels['user']
     return (
@@ -160,23 +160,23 @@ function AdminUsers() {
                 <DialogTitle className="text-2xl font-black uppercase tracking-tight">
                   {editingUser ? 'Edit User' : 'Create New User'}
                 </DialogTitle>
-                <DialogDescription className="font-bold text-muted-foreground uppercase tracking-widest text-[10px]">
+                <DialogDescription className="font-bold text-foreground uppercase tracking-widest text-[10px]">
                   {editingUser ? 'Update user information and permissions.' : 'Add a new user to the system.'}
                 </DialogDescription>
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-6 mt-4">
                 <div className="space-y-4">
                   <div className="grid gap-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Full Name *</label>
+                    <label className="text-[10px] font-black uppercase tracking-widest text-foreground">Full Name *</label>
                     <Input name="full_name" defaultValue={editingUser?.full_name} required className="rounded-xl h-12 bg-muted border-none px-4 text-foreground" />
                   </div>
                   <div className="grid gap-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Email Address *</label>
+                    <label className="text-[10px] font-black uppercase tracking-widest text-foreground">Email Address *</label>
                     <Input name="email" type="email" defaultValue={editingUser?.email} required className="rounded-xl h-12 bg-muted border-none px-4 text-foreground" />
                   </div>
                   {!editingUser && (
                     <div className="grid gap-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Password *</label>
+                      <label className="text-[10px] font-black uppercase tracking-widest text-foreground">Password *</label>
                       <Input name="password" type="password" required minLength={8} className="rounded-xl h-12 bg-muted border-none px-4 text-foreground" placeholder="Minimum 8 characters" />
                     </div>
                   )}
@@ -204,7 +204,7 @@ function AdminUsers() {
 
         <div className="bg-card border border-border rounded-[32px] overflow-hidden shadow-sm">
           <div className="p-4 border-b border-border flex items-center gap-4 bg-muted/30">
-            <Search className="w-4 h-4 text-muted-foreground" />
+            <Search className="w-4 h-4 text-foreground" />
             <Input 
               placeholder="Search by name or email..." 
               className="border-none shadow-none focus-visible:ring-0 bg-transparent text-sm h-10 text-foreground"
@@ -215,11 +215,11 @@ function AdminUsers() {
           <Table>
             <TableHeader>
               <TableRow className="border-b border-border hover:bg-transparent">
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">User</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">Email</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14 text-center">Level</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14">Status</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-6 h-14 text-right">Actions</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-foreground px-6 h-14">User</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-foreground px-6 h-14">Email</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-foreground px-6 h-14 text-center">Level</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-foreground px-6 h-14">Status</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-foreground px-6 h-14 text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -234,12 +234,12 @@ function AdminUsers() {
                   <TableCell className="px-6 py-5">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
-                        <UserIcon className="w-5 h-5 text-muted-foreground" />
+                        <UserIcon className="w-5 h-5 text-foreground" />
                       </div>
                       <span className="font-black uppercase tracking-tight text-sm">{user.full_name}</span>
                     </div>
                   </TableCell>
-                  <TableCell className="px-6 py-5 font-mono text-xs text-muted-foreground">{user.email}</TableCell>
+                  <TableCell className="px-6 py-5 font-mono text-xs text-foreground">{user.email}</TableCell>
                   <TableCell className="px-6 py-5 text-center">
                     {getLevelBadge(user.level)}
                   </TableCell>
@@ -298,7 +298,7 @@ function AdminUsers() {
         <AlertDialogContent className="rounded-[32px] border-none shadow-2xl p-8">
           <AlertDialogHeader>
             <AlertDialogTitle className="text-2xl font-black uppercase tracking-tight">Confirm Deletion</AlertDialogTitle>
-            <AlertDialogDescription className="text-sm font-bold text-neutral-500 pt-2">
+            <AlertDialogDescription className="text-sm font-bold text-foreground pt-2">
               This action cannot be undone. This will permanently delete the user account and remove all associated data from the system.
             </AlertDialogDescription>
           </AlertDialogHeader>

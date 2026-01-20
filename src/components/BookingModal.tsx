@@ -240,7 +240,7 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
 
           {/* Progress Steps */}
           <div className="flex items-center gap-4 mt-6">
-            <div className={`flex items-center gap-2 ${step === 'date' ? 'text-primary' : ['time', 'form', 'success'].includes(step) ? 'text-muted-foreground' : 'text-muted-foreground/50'}`}>
+            <div className={`flex items-center gap-2 ${step === 'date' ? 'text-primary' : ['time', 'form', 'success'].includes(step) ? 'text-foreground' : 'text-foreground'}`}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black ${
                 step === 'date' ? 'bg-primary text-primary-foreground' : 
                 ['time', 'form', 'success'].includes(step) ? 'bg-emerald-500 text-white' : 'bg-muted'
@@ -250,7 +250,7 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
               <span className="text-[10px] font-black uppercase tracking-widest text-foreground">Date</span>
             </div>
             <div className="flex-1 h-px bg-border" />
-            <div className={`flex items-center gap-2 ${step === 'time' ? 'text-primary' : ['form', 'success'].includes(step) ? 'text-muted-foreground' : 'text-muted-foreground/50'}`}>
+            <div className={`flex items-center gap-2 ${step === 'time' ? 'text-primary' : ['form', 'success'].includes(step) ? 'text-foreground' : 'text-foreground'}`}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black ${
                 step === 'time' ? 'bg-primary text-primary-foreground' : 
                 ['form', 'success'].includes(step) ? 'bg-emerald-500 text-white' : 'bg-muted'
@@ -260,7 +260,7 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
               <span className="text-[10px] font-black uppercase tracking-widest text-foreground">Time</span>
             </div>
             <div className="flex-1 h-px bg-border" />
-            <div className={`flex items-center gap-2 ${step === 'form' ? 'text-primary' : step === 'success' ? 'text-muted-foreground' : 'text-muted-foreground/50'}`}>
+            <div className={`flex items-center gap-2 ${step === 'form' ? 'text-primary' : step === 'success' ? 'text-foreground' : 'text-foreground'}`}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black ${
                 step === 'form' ? 'bg-blue-600 text-white' : 
                 step === 'success' ? 'bg-emerald-500 text-white' : 'bg-muted'
@@ -294,7 +294,7 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
                   >
                     <div className="text-center">
                       <div className="text-2xl font-black text-foreground">{format(date, 'd')}</div>
-                      <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mt-1">
+                      <div className="text-[10px] font-black uppercase tracking-widest text-foreground mt-1">
                         {format(date, 'EEE')}
                       </div>
                       {index === 0 && (
@@ -414,7 +414,7 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
                       Full Name *
                     </label>
                     <div className="relative">
-                      <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                      <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground" />
                       <Input
                         required
                         value={guestName}
@@ -430,7 +430,7 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
                       Email Address *
                     </label>
                     <div className="relative">
-                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground" />
                       <Input
                         type="email"
                         required
@@ -447,7 +447,7 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
                       Phone Number
                     </label>
                     <div className="relative">
-                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
+                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground" />
                       <Input
                         type="tel"
                         value={guestPhone}
@@ -503,31 +503,31 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
                 <CheckCircle2 className="w-10 h-10 text-emerald-600" />
               </div>
               <h3 className="text-2xl font-black uppercase tracking-tight mb-2 text-foreground">Booking Confirmed!</h3>
-              <p className="text-sm text-foreground/70 mb-8">
+              <p className="text-sm text-foreground mb-8">
                 Your reservation has been successfully created
               </p>
               
               <div className="bg-muted/50 rounded-2xl p-6 mb-8 text-left max-w-md mx-auto">
-                <div className="space-y-3 text-sm">
+                <div className="space-y-3 text-sm text-foreground">
                   <div className="flex justify-between">
-                    <span className="text-neutral-400 font-bold">Room:</span>
-                    <span className="font-black">{room.name}</span>
+                    <span className="text-foreground font-bold">Room:</span>
+                    <span className="font-black text-foreground">{room.name}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-neutral-400 font-bold">Date:</span>
-                    <span className="font-black">{format(selectedDate!, 'MMMM d, yyyy')}</span>
+                    <span className="text-foreground font-bold">Date:</span>
+                    <span className="font-black text-foreground">{format(selectedDate!, 'MMMM d, yyyy')}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-neutral-400 font-bold">Time:</span>
-                    <span className="font-black">{startTime} - {(parseInt(endTime || startTime || "0") + 1).toString().padStart(2, '0')}:00</span>
+                    <span className="text-foreground font-bold">Time:</span>
+                    <span className="font-black text-foreground">{startTime} - {(parseInt(endTime || startTime || "0") + 1).toString().padStart(2, '0')}:00</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-neutral-400 font-bold">Guest:</span>
-                    <span className="font-black">{guestName}</span>
+                    <span className="text-foreground font-bold">Guest:</span>
+                    <span className="font-black text-foreground">{guestName}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-neutral-400 font-bold">Purpose:</span>
-                    <span className="font-black">{purpose}</span>
+                    <span className="text-foreground font-bold">Purpose:</span>
+                    <span className="font-black text-foreground">{purpose}</span>
                   </div>
                 </div>
               </div>

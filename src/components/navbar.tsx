@@ -61,7 +61,7 @@ export function Navbar() {
           <div className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
             <Link 
               to="/" 
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors" 
+              className="text-sm font-medium text-foreground hover:text-foreground transition-colors" 
               activeProps={{ className: 'text-foreground font-semibold' }} 
               activeOptions={{ exact: true }}
             >
@@ -77,7 +77,7 @@ export function Navbar() {
                   return isAdmin ? (
                     <Link 
                       to="/admin/rooms" 
-                      className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors" 
+                      className="text-sm font-medium text-foreground hover:text-foreground transition-colors" 
                       activeProps={{ className: 'text-foreground font-semibold' }}
                     >
                       Dashboard
@@ -85,7 +85,7 @@ export function Navbar() {
                   ) : (
                     <Link 
                       to="/dashboard" 
-                      className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors" 
+                      className="text-sm font-medium text-foreground hover:text-foreground transition-colors" 
                       activeProps={{ className: 'text-foreground font-semibold' }}
                     >
                       My Bookings
@@ -104,7 +104,7 @@ export function Navbar() {
                   <Button 
                     variant="ghost" 
                     onClick={handleLogout}
-                    className="rounded-full gap-2 px-6 hover:bg-muted text-muted-foreground hover:text-foreground"
+                    className="rounded-full gap-2 px-6 hover:bg-muted text-foreground hover:text-foreground"
                   >
                     <LogOut className="w-4 h-4" />
                     Logout
@@ -158,7 +158,7 @@ export function Navbar() {
           )}
           <hr className="border-border" />
           {isAuthenticated ? (
-            <Button variant="ghost" className="w-full justify-start gap-2 text-muted-foreground" onClick={handleLogout}>
+            <Button variant="ghost" className="w-full justify-start gap-2 text-foreground" onClick={handleLogout}>
               <LogOut className="w-4 h-4" /> Logout
             </Button>
           ) : (

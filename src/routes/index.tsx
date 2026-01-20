@@ -41,9 +41,9 @@ function Index() {
             </div>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-foreground animate-in fade-in slide-in-from-bottom-6 duration-700">
             Elevate Your <br />
-            <span className="text-muted-foreground">Meeting Experience.</span>
+            <span>Meeting Experience.</span>
             </h1>
-            <p className="text-lg md:text-xl mb-10 text-muted-foreground max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-900">
+            <p className="text-lg md:text-xl mb-10 text-foreground max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-900">
             Discover and book premium rooms tailored for your teams. 
             From intimate huddles to executive board meetings.
             </p>
@@ -93,7 +93,7 @@ function Index() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12">
             <div>
                 <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">Featured Spaces</h2>
-                <p className="text-muted-foreground text-lg">Curated environments for productivity.</p>
+                <p className="text-foreground text-lg">Curated environments for productivity.</p>
             </div>
             <div className="flex items-center gap-4">
                 <Badge variant="outline" className="h-9 px-4 text-sm font-medium rounded-full bg-background">
@@ -211,7 +211,7 @@ function Index() {
                 </div>
                 <span className="text-xl font-bold tracking-tight">RuangKita</span>
               </div>
-              <p className="text-muted-foreground leading-relaxed text-sm max-w-xs">
+              <p className="text-foreground leading-relaxed text-sm max-w-xs">
                 Streamlining government workspace allocation with intelligent digital solutions.
               </p>
             </div>
@@ -220,19 +220,19 @@ function Index() {
             <div className="lg:col-span-2">
               <h3 className="font-semibold text-foreground mb-4">Platform</h3>
               <ul className="space-y-3">
-                <li><Link to="/" className="text-muted-foreground hover:text-primary transition-colors text-sm">Browse</Link></li>
-                <li><Link to="/login" className="text-muted-foreground hover:text-primary transition-colors text-sm">Dashboard</Link></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm">Status</a></li>
+                <li><Link to="/" className="text-foreground hover:text-primary transition-colors text-sm">Browse</Link></li>
+                <li><Link to="/login" className="text-foreground hover:text-primary transition-colors text-sm">Dashboard</Link></li>
+                <li><a href="#" className="text-foreground hover:text-primary transition-colors text-sm">Status</a></li>
               </ul>
             </div>
 
-            {/* Company */}
+            {/* Support */}
             <div className="lg:col-span-2">
               <h3 className="font-semibold text-foreground mb-4">Support</h3>
               <ul className="space-y-3">
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm">Help Center</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm">Guidelines</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm">Contact</a></li>
+                <li><a href="#" className="text-foreground hover:text-primary transition-colors text-sm">Help Center</a></li>
+                <li><a href="#" className="text-foreground hover:text-primary transition-colors text-sm">Guidelines</a></li>
+                <li><a href="#" className="text-foreground hover:text-primary transition-colors text-sm">Contact</a></li>
               </ul>
             </div>
 
@@ -254,10 +254,10 @@ function Index() {
 
           {/* Bottom Bar */}
           <div className="pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
-            <p className="text-muted-foreground text-xs">
+            <p className="text-foreground text-xs">
               &copy; 2026 DikporaRoom. Government of Indonesia.
             </p>
-            <div className="flex items-center gap-6 text-xs text-muted-foreground font-medium">
+            <div className="flex items-center gap-6 text-xs text-foreground font-medium">
               <a href="#" className="hover:text-foreground transition-colors">Privacy</a>
               <a href="#" className="hover:text-foreground transition-colors">Terms</a>
               <a href="#" className="hover:text-foreground transition-colors">Sitemap</a>
