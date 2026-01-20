@@ -12,7 +12,7 @@ import {
   CheckCircle2,
   Clock4,
   XCircle,
-  LayoutDashboard
+  LayoutDashboard,
 } from 'lucide-react'
 import { toast } from 'sonner'
 
@@ -28,13 +28,10 @@ function UserDashboard() {
     queryFn: () => bookingService.getMyBookings()
   })
 
-  const cancelBookingMutation = useMutation({
-    mutationFn: (id: string) => bookingService.updateBooking(id, { status: 'cancelled' }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['my-bookings'] })
-      toast.success('Booking cancelled')
-    }
-  })
+  const activeBookings = React.useMemo(() => 
+    myBookings?.filter(b => b.status !== 'cancelled') || []
+  , [myBookings])
+
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -83,7 +80,7 @@ function UserDashboard() {
           <CardHeader className="flex flex-row items-center justify-between pb-6 border-b border-border/40">
             <CardTitle className="text-xl font-bold">Recent Bookings</CardTitle>
             <Badge variant="secondary" className="px-3">
-              {myBookings?.length || 0} Total
+              {activeBookings.length} Total
             </Badge>
           </CardHeader>
           <CardContent className="pt-6">
@@ -99,9 +96,9 @@ function UserDashboard() {
                     </div>
                 ))}
                 </div>
-            ) : myBookings && myBookings.length > 0 ? (
+            ) : activeBookings.length > 0 ? (
                 <div className="space-y-4">
-                {myBookings.map(booking => (
+                {activeBookings.map(booking => (
                     <div 
                     key={booking.id}
                     className="group flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 rounded-2xl border border-border/50 bg-card hover:bg-muted/30 hover:border-border transition-all duration-200"
@@ -115,7 +112,7 @@ function UserDashboard() {
                         <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-foreground">
                             <div className="flex items-center gap-2">
                                 <Badge variant="outline" className="font-mono text-xs bg-background/50">
-                                    {booking.room_id.substring(0, 8)}
+                                    {booking.room_id?.substring(0, 8) || booking.room_id}
                                 </Badge>
                             </div>
                             <div className="flex items-center gap-1.5">
@@ -135,22 +132,6 @@ function UserDashboard() {
                         )}
                     </div>
 
-                    {booking.status === 'pending' && (
-                        <div className="flex items-center pt-2 md:pt-0">
-                            <Button 
-                            variant="destructive"
-                            size="sm"
-                            onClick={() => {
-                                if (confirm('Cancel this booking?')) {
-                                cancelBookingMutation.mutate(booking.id)
-                                }
-                            }}
-                            className="w-full md:w-auto shadow-sm"
-                            >
-                            Cancel
-                            </Button>
-                        </div>
-                    )}
                     </div>
                 ))}
                 </div>
@@ -168,6 +149,7 @@ function UserDashboard() {
             )}
           </CardContent>
         </Card>
+
       </div>
     </div>
   )

@@ -47,6 +47,8 @@ function AdminBookings() {
     mutationFn: ({ id, status }: { id: string, status: string }) => bookingService.updateBooking(id, { status }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-bookings'] })
+      queryClient.invalidateQueries({ queryKey: ['bookings'] })
+      queryClient.invalidateQueries({ queryKey: ['my-bookings'] })
       toast.success('Booking status updated')
     }
   })
@@ -132,7 +134,7 @@ function AdminBookings() {
                   </TableCell>
                   <TableCell className="px-6 py-5">
                     <code className="bg-muted px-2 py-1 rounded-lg text-[10px] font-bold text-foreground">
-                      {booking.room_id.substring(0, 8)}
+                      {booking.room_id?.substring(0, 8) || booking.room_id}
                     </code>
                   </TableCell>
                   <TableCell className="px-6 py-5">

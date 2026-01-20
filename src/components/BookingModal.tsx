@@ -88,8 +88,10 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
     const endTime = `${endHour}:00`
     
     return !bookings.some(booking => 
-      booking.start_time === time || 
-      (booking.start_time < time && booking.end_time > time)
+      booking.status !== 'cancelled' && (
+        booking.start_time === time || 
+        (booking.start_time < time && booking.end_time > time)
+      )
     )
   }
 
