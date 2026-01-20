@@ -13,10 +13,11 @@ import { toast } from 'sonner'
 // CONFIGURABLE: Maximum days in advance for booking (change this value to adjust booking window)
 const MAX_BOOKING_DAYS = 7
 
-// CONFIGURABLE: Time slots configuration
-const TIME_SLOTS = [
-  '08:00', '09:00', '10:00', '11:00',
-  '12:00', '13:00', '14:00', '15:00'
+// CONFIGURABLE: Session configuration
+const SESSIONS = [
+  { id: '1', label: 'Sesi 1 (07:30 - 12:15)', startTime: '07:30', endTime: '12:15' },
+  { id: '2', label: 'Sesi 2 (13:00 - 15:00)', startTime: '13:00', endTime: '15:00' },
+  { id: '3', label: 'Full Day (07:30 - 15:00)', startTime: '07:30', endTime: '15:00' },
 ]
 
 interface BookingModalProps {
@@ -71,130 +72,65 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
     }
   })
 
-  // Check if a time slot is available
-  const isTimeSlotAvailable = (time: string) => {
+  // Check if a session is available
+  const isSessionAvailable = (session: typeof SESSIONS[0]) => {
     if (!bookings || !selectedDate) return true
     
     const now = new Date()
-    const slotDateTime = new Date(selectedDate)
-    const [hours, minutes] = time.split(':')
-    slotDateTime.setHours(parseInt(hours), parseInt(minutes), 0, 0)
+    const sessionStartDateTime = new Date(selectedDate)
+    const [startHours, startMinutes] = session.startTime.split(':')
+    sessionStartDateTime.setHours(parseInt(startHours), parseInt(startMinutes), 0, 0)
     
-    // Check if slot is in the past
-    if (isBefore(slotDateTime, now)) return false
+    // Check if session is in the past
+    if (isBefore(sessionStartDateTime, now)) return false
     
-    // Check if slot is already booked
-    const endHour = (parseInt(hours) + 1).toString().padStart(2, '0')
-    const endTime = `${endHour}:00`
-    
+    // Check for overlap with existing bookings
     return !bookings.some(booking => 
       booking.status !== 'cancelled' && (
-        booking.start_time === time || 
-        (booking.start_time < time && booking.end_time > time)
+        (booking.start_time < session.endTime && booking.end_time > session.startTime)
       )
     )
   }
 
-  const getStepStatus = (
-    time: string
-  ): 'available' | 'past' | 'booked' | 'selected' | 'in-range' => {
-    if (!selectedDate) return 'available'
-
-    const now = new Date()
-    const slotDateTime = new Date(selectedDate)
-    const [hours, minutes] = time.split(':')
-    slotDateTime.setHours(parseInt(hours), parseInt(minutes), 0, 0)
-
-    if (isBefore(slotDateTime, now)) return 'past'
-    if (!isTimeSlotAvailable(time)) return 'booked'
-
-    if (startTime === time || endTime === time) return 'selected'
-    
-    if (startTime && endTime) {
-      if (time > startTime && time < endTime) {
-         // Verify all intermediate slots are available
-         return isTimeSlotAvailable(time) ? 'in-range' : 'booked'
-      }
-    }
-
-    return 'available'
+  const isRoomMondayBlocked = (date: Date) => {
+    if (!room) return false
+    const day = date.getDay()
+    const name = room.name.toLowerCase()
+    return (name.includes('pengawas sd') || name.includes('elementary school supervisory')) && day === 1
   }
 
   const handleDateSelect = (date: Date) => {
+    if (isRoomMondayBlocked(date)) {
+      toast.error('This room cannot be booked on Mondays')
+      return
+    }
     setSelectedDate(date)
     setStartTime(null)
     setEndTime(null)
     setStep('time')
   }
 
-  const handleTimeSelect = (time: string) => {
-    if (!startTime || (startTime && endTime)) {
-      setStartTime(time)
-      setEndTime(null)
-    } else {
-      // selecting end time
-      if (time > startTime) {
-        // Check if all slots in between are available
-        const slotsInRange = TIME_SLOTS.filter(t => t >= startTime && t <= time)
-        const allAvailable = slotsInRange.every(t => isTimeSlotAvailable(t))
-        
-        if (allAvailable) {
-           setEndTime(time)
-        } else {
-           toast.error('Some slots in this range are already booked')
-           setStartTime(time) // Reset to new start
-           setEndTime(null)
-        }
-      } else {
-        // clicked earlier than start time, make it new start time
-        setStartTime(time)
-        setEndTime(null)
-      }
-    }
+  const handleSessionSelect = (session: typeof SESSIONS[0]) => {
+    setStartTime(session.startTime)
+    setEndTime(session.endTime)
   }
 
   // Calculate duration and price if needed
   const duration = React.useMemo(() => {
     if (!startTime || !endTime) return 0
-    const startIdx = TIME_SLOTS.indexOf(startTime)
-    const endIdx = TIME_SLOTS.indexOf(endTime)
-    return endIdx - startIdx + 1 // Assuming 1 hour slots
+    return 1 // Session based booking is treated as 1 unit or we can calculate hours
   }, [startTime, endTime])
 
   const handleContinueToForm = () => {
-      if (startTime && endTime) {
-          setStep('form')
-      } else if (startTime && !endTime) {
-          // Allow single slot booking (1 hour)
-          setEndTime(startTime) // Set end same as start (meaning 1h block)
-          // Wait, logic above implies endTime is inclusive for display range?
-          // Usually end time for a booking is exclusive (e.g. 8-9).
-          // If the user selects 08:00 and 09:00, does that mean 08:00-10:00 or 08:00-09:00?
-          // "bookings can select start clock and end clock"
-          // Let's assume the user selects 08:00 as start. 
-          // If they select 09:00 as end, usually that means until 09:00? 
-          // But existing logic was: `endHour = parseInt(selectedTime) + 1`.
-          // So selecting 08:00 meant 08:00 - 09:00.
-          // If I pick 08:00 and 10:00. That should probably mean 08:00 -> 11:00 (3 slots: 8, 9, 10)?
-          // OR 08:00 -> 10:00 (2 slots: 8, 9).
-          // Let's assume inclusive of the slot. 08:00 Start, 10:00 End -> includes 10:00 slot.
-          // So 08:00 to 11:00 actual time.
-          setStep('form')
-      }
+    if (startTime && endTime) {
+      setStep('form')
+    }
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (!room || !selectedDate || !startTime) return
+    if (!room || !selectedDate || !startTime || !endTime) return
     
-    // If endTime is not set (shouldn't happen with updated logic), default to start+1h
-    const effectiveEndTime = endTime || startTime
-
-    // Calculate actual end time string for DB (exclusive)
-    const endSlotInt = parseInt(effectiveEndTime.split(':')[0])
-    const dbEndHour = (endSlotInt + 1).toString().padStart(2, '0')
-    const dbEndTime = `${dbEndHour}:00`
-
     createBookingMutation.mutate({
       room_id: room.id,
       guest_name: guestName,
@@ -202,7 +138,7 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
       guest_phone: guestPhone,
       booking_date: format(selectedDate, 'yyyy-MM-dd'),
       start_time: startTime,
-      end_time: dbEndTime,
+      end_time: endTime,
       purpose: purpose,
       status: 'pending'
     })
@@ -284,29 +220,39 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
               </p>
               
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
-                {availableDates.map((date, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleDateSelect(date)}
-                    className={`relative p-4 rounded-2xl border-2 transition-all hover:scale-105 ${
-                      selectedDate?.toDateString() === date.toDateString()
-                        ? 'border-primary bg-primary/5'
-                        : 'border-border hover:border-primary/50'
-                    }`}
-                  >
-                    <div className="text-center">
-                      <div className="text-2xl font-black text-foreground">{format(date, 'd')}</div>
-                      <div className="text-[10px] font-black uppercase tracking-widest text-foreground mt-1">
-                        {format(date, 'EEE')}
+                {availableDates.map((date, index) => {
+                  const isBlocked = isRoomMondayBlocked(date)
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => handleDateSelect(date)}
+                      disabled={isBlocked}
+                      className={`relative p-4 rounded-2xl border-2 transition-all ${
+                        isBlocked ? 'opacity-40 cursor-not-allowed border-border/50' :
+                        selectedDate?.toDateString() === date.toDateString()
+                          ? 'border-primary bg-primary/5 hover:scale-105'
+                          : 'border-border hover:border-primary/50 hover:scale-105'
+                      }`}
+                    >
+                      <div className="text-center">
+                        <div className="text-2xl font-black text-foreground">{format(date, 'd')}</div>
+                        <div className="text-[10px] font-black uppercase tracking-widest text-foreground mt-1">
+                          {format(date, 'EEE')}
+                        </div>
+                        {isBlocked && (
+                          <Badge className="absolute -top-2 -right-2 bg-red-500 text-white text-[8px] px-2 py-0.5">
+                            Blocked
+                          </Badge>
+                        )}
+                        {index === 0 && !isBlocked && (
+                          <Badge className="absolute -top-2 -right-2 bg-emerald-500 text-white text-[8px] px-2 py-0.5">
+                            Today
+                          </Badge>
+                        )}
                       </div>
-                      {index === 0 && (
-                        <Badge className="absolute -top-2 -right-2 bg-emerald-500 text-white text-[8px] px-2 py-0.5">
-                          Today
-                        </Badge>
-                      )}
-                    </div>
-                  </button>
-                ))}
+                    </button>
+                  )
+                })}
               </div>
             </div>
           )}
@@ -326,37 +272,38 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
                 </Button>
               </div>
 
-              <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-                {TIME_SLOTS.map((time) => {
-                  const status = getStepStatus(time)
-                  // const status = getTimeSlotStatus(time) // Replaced
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {SESSIONS.map((session) => {
+                  const isAvailable = isSessionAvailable(session)
+                  const isSelected = startTime === session.startTime && endTime === session.endTime
+                  
                   return (
                     <button
-                      key={time}
-                      onClick={() => ['available', 'selected', 'in-range'].includes(status) && handleTimeSelect(time)}
-                      disabled={status === 'booked' || status === 'past'}
-                      className={`relative p-4 rounded-2xl border-2 transition-all ${
-                        status === 'available' 
-                          ? 'border-border hover:border-primary hover:scale-105' 
-                          : status === 'selected'
+                      key={session.id}
+                      onClick={() => isAvailable && handleSessionSelect(session)}
+                      disabled={!isAvailable}
+                      className={`relative p-6 rounded-2xl border-2 transition-all text-left ${
+                        isSelected
                           ? 'border-primary bg-primary text-primary-foreground scale-105 shadow-md'
-                          : status === 'in-range'
-                          ? 'border-primary/20 bg-primary/5'
-                          : 'opacity-40 cursor-not-allowed border-border/50'
+                          : isAvailable
+                          ? 'border-border hover:border-primary hover:scale-105 bg-card'
+                          : 'opacity-40 cursor-not-allowed border-border/50 bg-muted/50'
                       }`}
                     >
-                      <div className="flex items-center justify-center gap-2">
-                        <Clock className={`w-4 h-4 text-foreground ${status === 'selected' ? 'text-white' : ''}`} />
-                        <span className={`text-sm font-black text-foreground ${status === 'selected' ? 'text-white' : ''}`}>{time}</span>
+                      <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-2">
+                          <Clock className={`w-4 h-4 ${isSelected ? 'text-white' : 'text-primary'}`} />
+                          <span className={`text-sm font-black uppercase tracking-tight ${isSelected ? 'text-white' : 'text-foreground'}`}>
+                            {session.label.split('(')[0]}
+                          </span>
+                        </div>
+                        <span className={`text-[10px] font-bold uppercase tracking-widest ${isSelected ? 'text-white/80' : 'text-muted-foreground'}`}>
+                           {session.startTime} - {session.endTime}
+                        </span>
                       </div>
-                      {status === 'past' && (
-                        <Badge className="absolute -top-2 -right-2 bg-muted-foreground text-background text-[8px] px-2 py-0.5">
-                          Past
-                        </Badge>
-                      )}
-                      {status === 'booked' && (
+                      {!isAvailable && (
                         <Badge className="absolute -top-2 -right-2 bg-red-500 text-white text-[8px] px-2 py-0.5">
-                          Full
+                          Unavailable
                         </Badge>
                       )}
                     </button>
@@ -405,7 +352,7 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
               <div className="mb-6">
                 <h3 className="text-lg font-black uppercase tracking-tight mb-1 text-foreground">Your Details</h3>
                 <p className="text-[10px] font-bold text-foreground uppercase tracking-widest">
-                  {format(selectedDate!, 'EEE, MMM d')} • {startTime} - {(parseInt(endTime || startTime || "0") + 1).toString().padStart(2, '0')}:00
+                  {selectedDate && format(selectedDate, 'EEE, MMM d')} • {startTime} - {endTime}
                 </p>
               </div>
 
@@ -521,7 +468,7 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-foreground font-bold">Time:</span>
-                    <span className="font-black text-foreground">{startTime} - {(parseInt(endTime || startTime || "0") + 1).toString().padStart(2, '0')}:00</span>
+                    <span className="font-black text-foreground">{startTime} - {endTime}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-foreground font-bold">Guest:</span>
