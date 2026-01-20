@@ -28,8 +28,26 @@ import {
   MoreVertical,
   ChevronDown,
   Plus,
-  Download
+  Download,
+  Info
 } from 'lucide-react'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
 import { toast } from 'sonner'
 import { BookingModal } from '@/components/BookingModal'
 import { roomService } from '@/lib/services'
@@ -43,6 +61,8 @@ function AdminBookings() {
   const queryClient = useQueryClient()
   const [search, setSearch] = React.useState('')
   const [isBookingModalOpen, setIsBookingModalOpen] = React.useState(false)
+  const [viewingBooking, setViewingBooking] = React.useState<Booking | null>(null)
+  const [deletingBookingId, setDeletingBookingId] = React.useState<string | null>(null)
 
   const { data: bookings, isLoading: bookingsLoading } = useQuery({
     queryKey: ['admin-bookings'],
@@ -214,6 +234,9 @@ function AdminBookings() {
                   <TableCell className="px-6 py-5">{getStatusBadge(booking.status)}</TableCell>
                   <TableCell className="px-6 py-5 text-right">
                     <div className="flex justify-end items-center gap-2">
+                      <Button variant="ghost" size="icon" onClick={() => setViewingBooking(booking)} className="rounded-xl hover:bg-muted transition-all">
+                        <Info className="w-3.5 h-3.5 text-foreground" />
+                      </Button>
                       <select 
                         value={booking.status}
                         onChange={(e) => updateStatusMutation.mutate({ id: booking.id, status: e.target.value })}
@@ -223,7 +246,7 @@ function AdminBookings() {
                         <option value="confirmed">Confirm</option>
                         <option value="cancelled">Cancel</option>
                       </select>
-                      <Button variant="ghost" size="icon" onClick={() => { if(confirm('Purge record?')) deleteMutation.mutate(booking.id) }} className="rounded-xl hover:bg-destructive/10 hover:text-destructive transition-all lg:opacity-0 lg:group-hover:opacity-100">
+                      <Button variant="ghost" size="icon" onClick={() => setDeletingBookingId(booking.id)} className="rounded-xl hover:bg-destructive/10 hover:text-destructive transition-all">
                         <XCircle className="w-3.5 h-3.5 text-foreground" />
                       </Button>
                     </div>
@@ -242,6 +265,94 @@ function AdminBookings() {
         open={isBookingModalOpen} 
         onOpenChange={setIsBookingModalOpen} 
       />
+
+      <Dialog open={!!viewingBooking} onOpenChange={(open) => !open && setViewingBooking(null)}>
+        <DialogContent className="sm:max-w-[500px] rounded-[32px] p-8 border-none shadow-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-black uppercase tracking-tight">Reservation Details</DialogTitle>
+            <DialogDescription className="font-bold text-foreground uppercase tracking-widest text-[10px]">
+              Full logging record for this session
+            </DialogDescription>
+          </DialogHeader>
+          
+          {viewingBooking && (
+            <div className="mt-6 space-y-6">
+              <div className="grid grid-cols-2 gap-6">
+                <div className="space-y-1">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Guest Identity</p>
+                  <p className="font-bold text-sm tracking-tight uppercase">{viewingBooking.guest_name}</p>
+                  <p className="text-xs text-muted-foreground font-medium">{viewingBooking.guest_email}</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Phone Number</p>
+                  <p className="font-bold text-sm">{viewingBooking.guest_phone || 'Not provided'}</p>
+                </div>
+              </div>
+
+              <div className="p-6 rounded-2xl bg-muted/50 space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <CalendarIcon className="w-4 h-4 text-primary" />
+                    <span className="font-black text-xs uppercase tracking-tight">{viewingBooking.booking_date}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-primary" />
+                    <span className="font-black text-xs uppercase tracking-tight">{viewingBooking.start_time} - {viewingBooking.end_time}</span>
+                  </div>
+                </div>
+                <div className="pt-2 border-t border-border/50">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Space Allocation</p>
+                  <p className="font-black text-xs uppercase tracking-tight">{roomsMap[viewingBooking.room_id] || viewingBooking.room_id}</p>
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Purpose & Needs</p>
+                <div className="text-xs font-semibold leading-relaxed bg-background p-4 rounded-xl border-2 border-border/50 text-foreground">
+                  {viewingBooking.purpose || 'No purpose description provided.'}
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between pt-4">
+                <div className="flex flex-col">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Applied At</p>
+                  <p className="text-[10px] font-bold text-foreground">{viewingBooking.created_at ? new Date(viewingBooking.created_at).toLocaleString() : 'N/A'}</p>
+                </div>
+                <div className="flex items-center gap-2">
+                   {getStatusBadge(viewingBooking.status)}
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      <AlertDialog open={!!deletingBookingId} onOpenChange={(open) => !open && setDeletingBookingId(null)}>
+        <AlertDialogContent className="rounded-[32px] border-none shadow-2xl p-8">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-2xl font-black uppercase tracking-tight">Purge Reservation?</AlertDialogTitle>
+            <AlertDialogDescription className="text-sm font-bold text-foreground pt-2">
+              This action cannot be undone. This will permanently remove this record from the system ledger.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="gap-3 pt-6">
+            <AlertDialogCancel className="rounded-2xl h-12 font-bold uppercase tracking-widest text-xs border-2">
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={() => {
+                if (deletingBookingId) {
+                  deleteMutation.mutate(deletingBookingId)
+                  setDeletingBookingId(null)
+                }
+              }}
+              className="rounded-2xl h-12 font-bold uppercase tracking-widest text-xs bg-red-500 hover:bg-red-600"
+            >
+              Confirm Purge
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }

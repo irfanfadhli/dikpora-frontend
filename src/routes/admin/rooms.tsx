@@ -268,7 +268,7 @@ function AdminRooms() {
                     )}
                   </TableCell>
                   <TableCell className="px-6 py-4 text-right">
-                    <div className="flex justify-end gap-1 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+                    <div className="flex justify-end gap-1 transition-opacity">
                       <Button 
                         variant="ghost" 
                         size="icon" 
