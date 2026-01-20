@@ -40,12 +40,11 @@ function Index() {
             <span>Professional Workspace Solutions</span>
             </div>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-foreground animate-in fade-in slide-in-from-bottom-6 duration-700">
-            Peminjaman Ruang <br />
-            <span>Dinas Pendidikan Kepemudaan dan Olahraga Kabupaten Bantul</span>
+            Sistem Informasi <br />
+            <span>Peminjaman Ruang Rapat</span>
             </h1>
             <p className="text-lg md:text-xl mb-10 text-foreground max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-900">
-            Discover and book premium rooms tailored for your teams. 
-            From intimate huddles to executive board meetings.
+            Dinas Pendidikan, Kepemudaan, dan Olahraga Kabupaten Bantul
             </p>
             
             <div className="relative w-full max-w-lg mx-auto group animate-in fade-in slide-in-from-bottom-10 duration-1000">
