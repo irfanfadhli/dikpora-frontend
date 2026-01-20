@@ -1,9 +1,10 @@
 import * as React from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { roomService } from '@/lib/services'
+import { roomService, bookingService } from '@/lib/services'
 import { Room } from '@/lib/types'
 import { AdminSidebar } from '@/components/admin-sidebar'
+import { exportToExcel } from '@/lib/excel'
 import { 
   Table, 
   TableBody, 
@@ -46,7 +47,8 @@ import {
   FileImage,
   Loader2,
   CheckCircle2,
-  XCircle
+  XCircle,
+  FileSpreadsheet
 } from 'lucide-react'
 import { toast } from 'sonner'
 
@@ -94,6 +96,40 @@ function AdminRooms() {
       toast.success('Room deleted successfully')
     }
   })
+
+  const [exportingRoomId, setExportingRoomId] = React.useState<string | null>(null)
+
+  const handleExportRoomBookings = async (room: Room) => {
+    try {
+      setExportingRoomId(room.id)
+      const roomBookings = await bookingService.getBookings({ room_id: room.id })
+      
+      if (!roomBookings || roomBookings.length === 0) {
+        toast.info(`No bookings found for ${room.name}`)
+        return
+      }
+
+      const exportData = roomBookings.map(b => ({
+        'Guest Name': b.guest_name,
+        'Email': b.guest_email || '-',
+        'Phone': b.guest_phone || '-',
+        'Room Name': room.name,
+        'Date': b.booking_date,
+        'Start Time': b.start_time,
+        'End Time': b.end_time,
+        'Purpose': b.purpose || '-',
+        'Status': b.status,
+        'Applied At': b.created_at ? new Date(b.created_at).toLocaleString() : '-'
+      }))
+
+      exportToExcel(exportData, `Schedule_${room.name.replace(/\s+/g, '_')}`)
+      toast.success(`Exported schedule for ${room.name}`)
+    } catch (error) {
+      toast.error('Failed to export room schedule')
+    } finally {
+      setExportingRoomId(null)
+    }
+  }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -233,6 +269,20 @@ function AdminRooms() {
                   </TableCell>
                   <TableCell className="px-6 py-4 text-right">
                     <div className="flex justify-end gap-1 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={() => handleExportRoomBookings(room)} 
+                        disabled={exportingRoomId === room.id}
+                        className="rounded-xl hover:bg-emerald-500 hover:text-white transition-all text-foreground"
+                        title="Export Schedule"
+                      >
+                        {exportingRoomId === room.id ? (
+                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        ) : (
+                          <FileSpreadsheet className="w-3.5 h-3.5" />
+                        )}
+                      </Button>
                       <Button variant="ghost" size="icon" onClick={() => { setEditingRoom(room); setIsModalOpen(true); }} className="rounded-xl hover:bg-primary hover:text-primary-foreground transition-all">
                         <Edit2 className="w-3.5 h-3.5" />
                       </Button>

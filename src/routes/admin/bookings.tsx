@@ -26,9 +26,14 @@ import {
   Clock4,
   XCircle,
   MoreVertical,
-  ChevronDown
+  ChevronDown,
+  Plus,
+  Download
 } from 'lucide-react'
 import { toast } from 'sonner'
+import { BookingModal } from '@/components/BookingModal'
+import { roomService } from '@/lib/services'
+import { exportToExcel } from '@/lib/excel'
 
 export const Route = createFileRoute('/admin/bookings')({
   component: AdminBookings,
@@ -37,11 +42,51 @@ export const Route = createFileRoute('/admin/bookings')({
 function AdminBookings() {
   const queryClient = useQueryClient()
   const [search, setSearch] = React.useState('')
+  const [isBookingModalOpen, setIsBookingModalOpen] = React.useState(false)
 
-  const { data: bookings, isLoading } = useQuery({
+  const { data: bookings, isLoading: bookingsLoading } = useQuery({
     queryKey: ['admin-bookings'],
     queryFn: () => bookingService.getBookings()
   })
+
+  const { data: rooms } = useQuery({
+    queryKey: ['admin-rooms-list'],
+    queryFn: () => roomService.getRooms()
+  })
+
+  // Create a rooms map for quick lookup
+  const roomsMap = React.useMemo(() => {
+    const map: Record<string, string> = {}
+    rooms?.forEach(r => {
+      map[r.id] = r.name
+    })
+    return map
+  }, [rooms])
+
+  const isLoading = bookingsLoading
+
+  const handleExport = () => {
+    if (!filteredBookings.length) {
+      toast.error('No data to export')
+      return
+    }
+
+    const exportData = filteredBookings.map(b => ({
+      'Guest Name': b.guest_name,
+      'Email': b.guest_email || '-',
+      'Phone': b.guest_phone || '-',
+      'Room Name': roomsMap[b.room_id] || b.room_id,
+      'Date': b.booking_date,
+      'Start Time': b.start_time,
+      'End Time': b.end_time,
+      'Purpose': b.purpose || '-',
+      'Status': b.status,
+      'Applied At': b.created_at ? new Date(b.created_at).toLocaleString() : '-'
+    }))
+
+    exportToExcel(exportData, 'Reservation_Ledger')
+    toast.success('Excel file generated successfully')
+  }
 
   const updateStatusMutation = useMutation({
     mutationFn: ({ id, status }: { id: string, status: string }) => bookingService.updateBooking(id, { status }),
@@ -63,7 +108,8 @@ function AdminBookings() {
 
   const filteredBookings = bookings?.filter(b => 
     b.guest_name.toLowerCase().includes(search.toLowerCase()) ||
-    b.room_id.includes(search)
+    b.room_id.includes(search) ||
+    roomsMap[b.room_id]?.toLowerCase().includes(search.toLowerCase())
   ) || []
 
   const getStatusBadge = (status: string) => {
@@ -83,16 +129,26 @@ function AdminBookings() {
     <div className="flex">
       <AdminSidebar />
       <div className="flex-1 p-6 md:p-10 bg-background animate-appear">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
-          <div>
-            <h1 className="text-3xl font-black tracking-tight uppercase mb-1">Reservation Ledger</h1>
-            <p className="text-sm font-bold text-foreground uppercase tracking-widest">Global Schedule Tracking & Auditing</p>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
+            <div>
+              <h1 className="text-3xl font-black tracking-tight uppercase mb-1">Reservation Ledger</h1>
+              <p className="text-sm font-bold text-foreground uppercase tracking-widest">Global Schedule Tracking & Auditing</p>
+            </div>
+            <div className="flex items-center gap-4">
+              <Button 
+                variant="outline" 
+                onClick={handleExport}
+                className="rounded-2xl h-12 px-6 font-bold gap-2 border-border border-2 hover:bg-muted"
+              >
+                <Download className="w-4 h-4" />
+                Download Ledger
+              </Button>
+              <Button onClick={() => setIsBookingModalOpen(true)} className="rounded-2xl h-12 px-8 font-bold gap-2 shadow-xl shadow-blue-500/10">
+                <Plus className="w-4 h-4" />
+                Add New Reservation
+              </Button>
+            </div>
           </div>
-          <div className="flex items-center gap-4 bg-muted/50 p-1.5 rounded-2xl border border-border shadow-sm">
-            <Button variant="ghost" className="rounded-xl font-bold text-xs uppercase tracking-widest px-6 h-10">Active</Button>
-            <Button variant="ghost" className="rounded-xl font-bold text-xs uppercase tracking-widest px-6 h-10 text-foreground">Archived</Button>
-          </div>
-        </div>
 
         <div className="bg-card border border-border rounded-[32px] overflow-hidden shadow-sm">
           <div className="p-4 border-b border-border flex items-center gap-4 bg-muted/30">
@@ -108,7 +164,7 @@ function AdminBookings() {
             <TableHeader>
               <TableRow className="border-b border-border hover:bg-transparent">
                 <TableHead className="text-[10px] font-black uppercase tracking-widest text-foreground px-6 h-14">Identity</TableHead>
-                <TableHead className="text-[10px] font-black uppercase tracking-widest text-foreground px-6 h-14">Space Code</TableHead>
+                <TableHead className="text-[10px] font-black uppercase tracking-widest text-foreground px-6 h-14">Space / Room</TableHead>
                 <TableHead className="text-[10px] font-black uppercase tracking-widest text-foreground px-6 h-14">Time Signature</TableHead>
                 <TableHead className="text-[10px] font-black uppercase tracking-widest text-foreground px-6 h-14">Purpose</TableHead>
                 <TableHead className="text-[10px] font-black uppercase tracking-widest text-foreground px-6 h-14">Current Status</TableHead>
@@ -133,9 +189,12 @@ function AdminBookings() {
                     </div>
                   </TableCell>
                   <TableCell className="px-6 py-5">
-                    <code className="bg-muted px-2 py-1 rounded-lg text-[10px] font-bold text-foreground">
-                      {booking.room_id?.substring(0, 8) || booking.room_id}
-                    </code>
+                    <div className="flex flex-col">
+                      <span className="text-[10px] font-black uppercase tracking-tight text-foreground">{roomsMap[booking.room_id] || 'N/A'}</span>
+                      <code className="text-[9px] font-bold text-muted-foreground mt-0.5">
+                        {booking.room_id?.substring(0, 8) || booking.room_id}
+                      </code>
+                    </div>
                   </TableCell>
                   <TableCell className="px-6 py-5">
                     <div className="flex flex-col">
@@ -178,6 +237,11 @@ function AdminBookings() {
           )}
         </div>
       </div>
+      <BookingModal 
+        room={null} 
+        open={isBookingModalOpen} 
+        onOpenChange={setIsBookingModalOpen} 
+      />
     </div>
   )
 }

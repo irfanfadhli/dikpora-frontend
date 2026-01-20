@@ -31,7 +31,29 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null)
   const [startTime, setStartTime] = React.useState<string | null>(null)
   const [endTime, setEndTime] = React.useState<string | null>(null)
+  const [selectedRoomId, setSelectedRoomId] = React.useState<string | null>(room?.id || null)
   const [step, setStep] = React.useState<'date' | 'time' | 'form' | 'success'>('date')
+  
+  // Sync selectedRoomId when room prop changes
+  React.useEffect(() => {
+    if (room?.id) {
+      setSelectedRoomId(room.id)
+    }
+  }, [room])
+
+  // Fetch all rooms for the selection dropdown
+  const { data: allRooms } = useQuery({
+    queryKey: ['rooms-list'],
+    queryFn: () => roomService.getRooms({ active: true })
+  })
+
+  // Find the currently selected room object
+  const activeRoom = React.useMemo(() => {
+    if (selectedRoomId) {
+      return allRooms?.find(r => r.id === selectedRoomId) || room
+    }
+    return room
+  }, [selectedRoomId, allRooms, room])
   
   // Form state
   const [guestName, setGuestName] = React.useState('')
@@ -51,12 +73,12 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
 
   // Fetch bookings for selected date
   const { data: bookings } = useQuery({
-    queryKey: ['bookings', room?.id, selectedDate?.toISOString()],
+    queryKey: ['bookings', activeRoom?.id, selectedDate?.toISOString()],
     queryFn: () => bookingService.getBookings({
-      room_id: room?.id,
+      room_id: activeRoom?.id,
       booking_date: selectedDate ? format(selectedDate, 'yyyy-MM-dd') : undefined
     }),
-    enabled: !!room && !!selectedDate
+    enabled: !!activeRoom && !!selectedDate
   })
 
   // Create booking mutation
@@ -93,9 +115,9 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
   }
 
   const isRoomMondayBlocked = (date: Date) => {
-    if (!room) return false
+    if (!activeRoom) return false
     const day = date.getDay()
-    const name = room.name.toLowerCase()
+    const name = activeRoom.name.toLowerCase()
     return (name.includes('pengawas sd') || name.includes('elementary school supervisory')) && day === 1
   }
 
@@ -129,10 +151,10 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (!room || !selectedDate || !startTime || !endTime) return
+    if (!activeRoom || !selectedDate || !startTime || !endTime) return
     
     createBookingMutation.mutate({
-      room_id: room.id,
+      room_id: activeRoom.id,
       guest_name: guestName,
       guest_email: guestEmail,
       guest_phone: guestPhone,
@@ -160,7 +182,7 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
     onOpenChange(false)
   }
 
-  if (!room) return null
+  // No early return for !room to allow manual room selection
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
@@ -169,10 +191,10 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
         <div className="sticky top-0 bg-card border-b border-border p-8 z-10">
           <DialogHeader>
             <DialogTitle className="text-2xl font-black uppercase tracking-tight">
-              Book {room.name}
+              {activeRoom ? `Book ${activeRoom.name}` : 'Create Reservation'}
             </DialogTitle>
             <p className="text-[10px] font-black uppercase tracking-widest text-foreground mt-2">
-              {room.location || 'Central Facility'} • {room.capacity} Persons
+              {activeRoom ? `${activeRoom.location || 'Central Facility'} • ${activeRoom.capacity} Persons` : 'Select a room and fill in details'}
             </p>
           </DialogHeader>
 
@@ -360,6 +382,25 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
                 <div className="grid gap-4">
                   <div>
                     <label className="text-[10px] font-black uppercase tracking-widest text-foreground mb-2 block">
+                      Selected Room *
+                    </label>
+                    <select
+                      required
+                      value={selectedRoomId || ''}
+                      onChange={(e) => setSelectedRoomId(e.target.value)}
+                      className="w-full h-14 rounded-2xl border-2 bg-background px-4 font-bold text-foreground focus:ring-2 focus:ring-primary outline-none appearance-none"
+                    >
+                      <option value="" disabled>Choose a space</option>
+                      {allRooms?.map(r => (
+                        <option key={r.id} value={r.id}>
+                          {r.name} ({r.location || 'No Location'})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="text-[10px] font-black uppercase tracking-widest text-foreground mb-2 block">
                       Full Name *
                     </label>
                     <div className="relative">
@@ -460,7 +501,7 @@ export function BookingModal({ room, open, onOpenChange }: BookingModalProps) {
                 <div className="space-y-3 text-sm text-foreground">
                   <div className="flex justify-between">
                     <span className="text-foreground font-bold">Room:</span>
-                    <span className="font-black text-foreground">{room.name}</span>
+                    <span className="font-black text-foreground">{activeRoom?.name}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-foreground font-bold">Date:</span>
